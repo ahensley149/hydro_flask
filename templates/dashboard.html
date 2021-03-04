@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class = "content">
+    {% for enviro in enviros %}
+        <div class = "environment">
+            <h2>{{ enviro.name }}</h2>
+            {{ enviro.ph_sensor }}
+            {{ enviro.current_ph() }}
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Min</th>
+                    <th>Max</th>
+                </tr>
+                <tr>
+                    <th>pH</th>
+                    <td>{{ enviro.water.min_ph }}</td>
+                    <td>{{ enviro.water.max_ph }}</td>
+                </tr>
+                <tr>
+                    <th>EC</th>
+                    <td>{{ enviro.water.min_ec }}</td>
+                    <td>{{ enviro.water.max_ec }}</td>
+                </tr>
+            </table>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

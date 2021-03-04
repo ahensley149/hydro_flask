@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<form action="/add_enviro" method="POST">
+    <label>Name:</label>
+    <input type="text" name="name" id="name">
+    <br />
+    <label>Water:</label>
+    <input type="text" name="water_id" id="water_id">
+    <label>Light:</label>
+    <input type="text" name="light_id" id="light_id">
+    <br />
+    <label>ph Sensor:</label>
+    <input type="text" name="ph_sensor" id="ph_sensor">
+    <label>EC Sensor:</label>
+    <input type="text" name="ec_sensor" id="ec_sensor">
+    <br />
+    <label>Active:</label>
+    <input type="text" name="active" id="active">
+    <input type="submit" value="Add Enviroment">
+</form>
+{% endblock %}
