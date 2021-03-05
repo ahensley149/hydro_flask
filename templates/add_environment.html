@@ -1,22 +1,46 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<form action="/add_enviro" method="POST">
-    <label>Name:</label>
-    <input type="text" name="name" id="name">
-    <br />
-    <label>Water:</label>
-    <input type="text" name="water_id" id="water_id">
-    <label>Light:</label>
-    <input type="text" name="light_id" id="light_id">
-    <br />
-    <label>ph Sensor:</label>
-    <input type="text" name="ph_sensor" id="ph_sensor">
-    <label>EC Sensor:</label>
-    <input type="text" name="ec_sensor" id="ec_sensor">
-    <br />
-    <label>Active:</label>
-    <input type="text" name="active" id="active">
-    <input type="submit" value="Add Enviroment">
-</form>
+<div class = "form">
+    <h1>Create New Environment</h1>
+    <form action="/add_enviro" method="POST" id="enviro-form">
+        <label>Name:</label>
+        <input type="text" name="name" id="name">
+        <br />
+        <label>Water:</label>
+        <input type="text" name="water_id" id="water_id">
+        <label>Light:</label>
+        <input type="text" name="light_id" id="light_id">
+        <br />
+        <select name="ph_sensor" id="ph_sensor" form="enviro-form">
+            <option value="0">pH Sensor</option>
+            <option value="1">Sensor #1</option>
+            <option value="2">Sensor #2</option>
+        </select>
+        <select name="ec_sensor" id="ec_sensor" form="enviro-form">
+            <option value="0">EC Sensor</option>
+            <option value="1">Sensor #1</option>
+            <option value="2">Sensor #2</option>
+        </select>
+        <br />
+        <select name="water_pump" id="water_pump" form="enviro-form">
+            <option value="0">Water Pump</option>
+            <option value="8">Outlet #1</option>
+            <option value="10">Outlet #2</option>
+            <option value="12">Outlet #3</option>
+            <option value="16">Outlet #4</option>
+            <option value="18">Outlet #5</option>
+            <option value="22">Outlet #6</option>
+            <option value="24">Outlet #7</option>
+        </select>
+        <br />        
+        {% for plant in plants %}
+            {{plant.name}} <input type = "checkbox" name="plant" id="plant" value="{{ plant.id }}">
+            <br />
+        {% endfor %}
+        <label>Active:</label>
+        <input type="checkbox" name="active" id="active" value="1">
+        <input type="submit" value="Add Enviroment">
+    </form>
+</div>
 {% endblock %}

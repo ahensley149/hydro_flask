@@ -14,14 +14,14 @@ while True:
 """
 def current_ph(ph_sensor):
     if ph_sensor == 1:
-        return 6.5
+        return 6.0
     elif ph_sensor == 2:
-        return 5.5
+        return 5.4
     else:
         return 0
 def current_ec(ec_sensor):
     if ec_sensor == 1:
-        return 1.2
+        return 1.0
     elif ec_sensor == 2:
         return 1.5
     else:

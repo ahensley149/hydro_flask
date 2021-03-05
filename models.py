@@ -7,6 +7,18 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
 db = SQLAlchemy(app)
 
+plants = db.Table('plants',
+    db.Column('plant_id', db.Integer, db.ForeignKey('plant.id'), primary_key=True),
+    db.Column('enviro_id', db.Integer, db.ForeignKey('enviro.id'), primary_key=True)
+)
+class Air(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    min_temp = db.Column(db.Integer, default=60)
+    max_temp = db.Column(db.Integer, default=80)
+    min_humid = db.Column(db.Integer, default=60)
+    max_humid = db.Column(db.Integer, default=100)
+
 class Water(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -30,6 +42,10 @@ class Light(db.Model):
     def __repr__(self):
         return '<Water %r>' % self.id
 
+class Plant(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
 class Enviro(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -41,10 +57,35 @@ class Enviro(db.Model):
     active = db.Column(db.Integer, default=0)
     water_id = db.Column(db.Integer, db.ForeignKey('water.id'), nullable=False)
     light_id = db.Column(db.Integer, db.ForeignKey('light.id'), nullable=False)
+    plants = db.relationship('Plant', secondary=plants, lazy='subquery',
+        backref=db.backref('enviros', lazy=True))
 
     def current_ph(self):
         """Retrieves the current pH level of the water from the ph sensor attached to
         the current Enviro()
         """
+        if self.ph_sensor == 0:
+            return 'N/A'
         ph_level = current_ph(self.ph_sensor)
-        return ph_level
+        return float(ph_level)
+
+    def current_ec(self):
+        """Retrieves the current EC level of the water from the ec sensor attached to
+        the current Enviro()
+        """
+        if self.ec_sensor == 0:
+            return 'N/A'
+        ec_level = current_ec(self.ec_sensor)
+        return float(ec_level)
+    
+    def alert_status(self, sensor):
+        if sensor == "ph":
+            if self.ph_sensor == 0:
+                return
+            if current_ph(self.ph_sensor) < self.water.min_ph or current_ph(self.ph_sensor) > self.water.max_ph:
+                return "alert"
+        if sensor == "ec":
+            if self.ec_sensor == 0:
+                return
+            if current_ec(self.ec_sensor) < self.water.min_ec or current_ec(self.ec_sensor) > self.water.max_ec:
+                return "alert"
