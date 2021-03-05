@@ -12,6 +12,14 @@ def dashboard():
     environments = Enviro.query.filter(Enviro.active == 1)
     return render_template('dashboard.html', enviros=environments)
 
+@app.route('/enviro')
+
+def list_environments():
+    """Index of all environments for updating and deleting
+    """
+    environments = Enviro.query.all()    
+    return render_template('index_enviro.html', enviros=environments)
+
 @app.route('/add_enviro', methods=['POST', 'GET'])
 
 def add_environment():
@@ -47,7 +55,7 @@ def add_environment():
         try:
             db.session.add(new_enviro)
             db.session.commit()
-            return redirect('/')
+            return redirect('/enviro')
         except:
             return 'There was an issue adding your environment'
 
@@ -78,7 +86,7 @@ def update_enviro(id):
 
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect('/enviro')
         except:
             return 'Update Unsuccesful'
     else:
@@ -99,47 +107,237 @@ def delete_enviro(id):
     try:
         db.session.delete(enviro_to_delete)
         db.session.commit()
-        return redirect('/')
+        return redirect('/enviro')
     except:
         return 'There was a problem delting that task'
+
+@app.route('/water')
+
+def list_water_profile():
+    waters = Water.query.all()
+    return render_template('index_water.html', waters=waters)
         
 @app.route('/add_water', methods=['POST', 'GET'])
 
 def add_water_profile():
-    water1 = Water(name='Default')
+    if request.method == 'POST':
+        name = request.form['name']
+        min_ph = request.form['min_ph']
+        max_ph = request.form['max_ph']
+        min_ec = request.form['min_ec']
+        max_ec = request.form['max_ec']
+        new_water = Water(name=name, min_ph=min_ph, max_ph=max_ph, min_ec=min_ec, max_ec=max_ec)
+
+        try:
+            db.session.add(new_water)
+            db.session.commit()
+            return redirect('/water')
+        except:
+            return 'There was an issue adding your water profile'
+    
+    else:
+        return render_template('add_water.html')
+
+@app.route('/update_water/<int:id>', methods=['POST', 'GET'])
+
+def update_water_profile(id):
+    water = Water.query.get_or_404(id)
+    if request.method == 'POST':
+        water.name = request.form['name']
+        water.min_ph = request.form['min_ph']
+        water.max_ph = request.form['max_ph']
+        water.min_ec = request.form['min_ec']
+        water.max_ec = request.form['max_ec']
+        
+        try:
+            db.session.commit()
+            return redirect('/water')
+        except:
+            return 'There was an issue updating the water profile'
+    
+    else:
+        return render_template('update_water.html', water=water)
+
+@app.route('/delete_water/<int:id>', methods=['POST', 'GET'])
+
+def delete_water_profile(id):
+    water = Water.query.get_or_404(id)
     try:
-        db.session.add(water1)
+        db.session.delete(water)
         db.session.commit()
-        return redirect('/')
+        return redirect('/water')
     except:
-        return 'There was an issue adding your task'
+        return 'There was an issue deleting the water profile'
+    
+    else:
+        return render_template('update_water.html', water=water)
+
+@app.route('/light')
+
+def list_light_profiles():
+    lights = Light.query.all()
+    return render_template('index_light.html', lights=lights)
 
 @app.route('/add_light', methods=['POST', 'GET'])
 
-def add_lights():
-    light1 = Light(name="Default")
+def add_light_profile():
+    if request.method == 'POST':
+        name = request.form['name']
+        model = request.form['model']
+        start_time = request.form['start_time']
+        end_time = request.form['end_time']
+        new_light = Light(name=name, model=model, start_time=start_time, end_time=end_time)
+
+        try:
+            db.session.add(new_light)
+            db.session.commit()
+            return redirect('/light')
+        except:
+            return 'There was an issue adding the light profile'
+    
+    else:
+        return render_template('add_light.html')
+
+@app.route('/update_light/<int:id>', methods=['POST', 'GET'])
+
+def update_light_profile(id):
+    light = Light.query.get_or_404(id)
+    if request.method == 'POST':
+        light.name = request.form['name']
+        light.model = request.form['model']
+        light.start_time = request.form['start_time']
+        light.end_time = request.form['end_time']
+        
+        try:
+            db.session.commit()
+            return redirect('/light')
+        except:
+            return 'There was an issue updating the light profile'
+    
+    else:
+        return render_template('update_light.html', light=light)
+
+@app.route('/delete_light/<int:id>', methods=['POST', 'GET'])
+
+def delete_light_profile(id):
+    light = Light.query.get_or_404(id)
     try:
-        db.session.add(light1)
+        db.session.delete(light)
         db.session.commit()
-        return redirect('/')
+        return redirect('/light')
     except:
-        return 'There was an issue adding your task'
+        return 'There was an issue deleting the light profile'
+
+@app.route('/plant')
+
+def list_plant_profiles():
+    plants = Plant.query.all()
+    return render_template('index_plant.html', plants=plants)
 
 @app.route('/add_plant', methods=['POST', 'GET'])
 
-def add_plant():
-    plant1 = Plant(name="Roma Tomatoes")
-    plant2 = Plant(name="Beef Steak Tomatoes")
-    plant3 = Plant(name="Kale")
+def add_plant_profile():
+    if request.method == 'POST':
+        name = request.form['name']
+        new_plant = Plant(name=name)
 
+        try:
+            db.session.add(new_plant)
+            db.session.commit()
+            return redirect('/plant')
+        except:
+            return 'There was an issue adding the plant'
+    
+    else:
+        return render_template('add_plant.html')
+
+@app.route('/update_plant/<int:id>', methods=['POST', 'GET'])
+
+def update_plant_profile(id):
+    plant = Plant.query.get_or_404(id)
+    if request.method == 'POST':
+        plant.name = request.form['name']
+        
+        try:
+            db.session.commit()
+            return redirect('/plant')
+        except:
+            return 'There was an issue updating the plant'
+    
+    else:
+        return render_template('update_plant.html', plant=plant)
+
+@app.route('/delete_plant/<int:id>', methods=['POST', 'GET'])
+
+def delete_plant_profile(id):
+    plant = Plant.query.get_or_404(id)
     try:
-        db.session.add(plant1)
-        db.session.add(plant2)
-        db.session.add(plant3)
+        db.session.delete(plant)
         db.session.commit()
-        return redirect('/')
+        return redirect('/plant')
     except:
-        return 'There was an issue adding your task'
+        return 'There was an issue deleting the plant'
+    
+
+@app.route('/air')
+
+def list_air_profiles():
+    airs = Air.query.all()
+    return render_template('index_air.html', airs=airs)
+
+@app.route('/add_air', methods=['POST', 'GET'])
+
+def add_air_profile():
+    if request.method == 'POST':
+        name = request.form['name']
+        min_temp = request.form['min_temp']
+        max_temp = request.form['max_temp']
+        min_humid = request.form['min_humid']
+        max_humid = request.form['max_humid']
+
+        new_air = Air(name=name,min_temp=min_temp,max_temp=max_temp,min_humid=min_humid,max_humid=max_humid)
+
+        try:
+            db.session.add(new_air)
+            db.session.commit()
+            return redirect('/air')
+        except:
+            return 'There was an issue adding the air profile'
+    
+    else:
+        return render_template('add_air.html')
+
+@app.route('/update_air/<int:id>', methods=['POST', 'GET'])
+
+def update_air_profile(id):
+    air = Air.query.get_or_404(id)
+    if request.method == 'POST':
+        air.name = request.form['name']
+        air.min_temp = request.form['min_temp']
+        air.max_temp = request.form['max_temp']
+        air.min_humid = request.form['min_humid']
+        air.max_humid = request.form['max_humid']
+
+        try:
+            db.session.commit()
+            return redirect('/air')
+        except:
+            return 'There was an issue updating the air profile'
+    
+    else:
+        return render_template('update_air.html', air=air)
+
+@app.route('/delete_air/<int:id>', methods=['POST', 'GET'])
+
+def delete_air_profile(id):
+    air = Air.query.get_or_404(id)
+    try:
+        db.session.delete(air)
+        db.session.commit()
+        return redirect('/air')
+    except:
+        return 'There was an issue deleting the air profile'
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

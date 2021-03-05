@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class = "form">
+    <h1>Create New Water Profile</h1>
+    <form action="/add_water" method="POST" id="enviro-form">
+        <div class = "left">
+        <label>Name:</label>
+        <input type="text" name="name" id="name">
+        <br /><br />
+        <label>Min pH: </label>
+        <input type="text" name="min_ph" id="min_ph" value="5.5">
+        <label>Max pH: </label>
+        <input type="text" name="max_ph" id="max_ph" value="6.5">
+        <br /><br />
+        <label>Min EC: </label>
+        <input type="text" name="min_ec" id="min_ec" value="1.2">
+        <label>Max EC: </label>
+        <input type="text" name="max_ec" id="max_ec" value="1.6">
+        <br /><br />
+        <input type="submit" value="Add Water Profile">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="content">
+    <h1>Manage Air Profiles</h1>
+    <hr class="line">
+    <div class = "container">
+        {% for air in airs %}
+            <div class = "air">
+                <h2>{{ air.name }}</h2>
+                <a href="/update_air/{{air.id}}">Update</a>
+                <a href="/delete_air/{{air.id}}">Delete</a>
+                <table width = "100%">
+                    <tr>
+                        <th></th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                    <tr>
+                        <td>Temperature</td>
+                        <td>{{ air.min_temp }}</td>
+                        <td>{{ air.max_temp }}</td>
+                    </tr>
+                    <tr>
+                        <td>Humidity</td>
+                        <td>{{ air.min_humid }}</td>
+                        <td>{{ air.max_humid }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class = "content">
+    <h1>Manage Environments</h1>
+    <hr class = "line">
+    <div class = "environments">
+    {% for enviro in enviros %}
+        <div class = "environment">
+            <h2>{{ enviro.name }}</h2>
+            <hr class = "line">
+            <div class = "plant_list">
+                <b>Plants</b>
+                <ul>
+                    {% for plant in enviro.plants %}
+                        <li>{{ plant.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <table class = "alerts_panel">
+                <tr>
+                    <th class = "alert_header">pH</th>
+                    <th class = "alert_header">EC</th>
+                    <th class = "alert_header">Temp</th>
+                    <th class = "alert_header">Humidity</th>
+                </tr>
+                <tr class = "alerts_panel">
+                    <td class = "{{ enviro.alert_status('ph') }}">
+                        <h3>{{ enviro.current_ph() }}</h3>
+                        <table width = "100%">
+                            <tr>
+                                <th>Min</th>
+                                <th>Max</th>
+                            </tr>
+                            <tr>
+                                <td>{{ enviro.water.min_ph }}</td>
+                                <td>{{ enviro.water.max_ph }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class = "{{ enviro.alert_status('ec') }}">
+                        <h3>{{ enviro.current_ec() }}</h3>
+                        <table width = "100%">
+                            <tr>
+                                <th>Min</th>
+                                <th>Max</th>
+                            </tr>
+                            <tr>
+                                <td>{{ enviro.water.min_ec }}</td>
+                                <td>{{ enviro.water.max_ec }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <h3>N/A</h3>
+                        <table width = "100%">
+                            <tr>
+                                <th>Min</th>
+                                <th>Max</th>
+                            </tr>
+                            <tr>
+                                <td>65</td>
+                                <td>85</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <h3>N/A</h3>
+                        <table width = "100%">
+                            <tr>
+                                <th>Min</th>
+                                <th>Max</th>
+                            </tr>
+                            <tr>
+                                <td>50%</td>
+                                <td>100%</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <a href = "/update_enviro/{{enviro.id}}">Update</a>
+            <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
+        </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

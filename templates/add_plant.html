@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class = "form">
+    <h1>Create New Plant Profile</h1>
+    <form action="/add_plant" method="POST" id="enviro-form">
+        <div class = "left">
+        <label>Name:</label>
+        <input type="text" name="name" id="name">
+        <br /><br />
+        <input type="submit" value="Add Plant Profile">
+    </form>
+</div>
+{% endblock %}

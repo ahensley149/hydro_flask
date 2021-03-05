@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="content">
+    <h1>Manage Plant Profiles</h1>
+    <hr class="line">
+    <div class = "container">
+        {% for plant in plants %}
+            <div class = "plant">
+                <h2>{{ plant.name }}</h2>
+                <a href="/update_plant/{{plant.id}}">Update</a>
+                <a href="/delete_plant/{{plant.id}}">Delete</a>
+                <br />               
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

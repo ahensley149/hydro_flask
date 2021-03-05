@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="content">
+    <h1>Manage Water Profiles</h1>
+    <hr class="line">
+    <div class = "container">
+        {% for water in waters %}
+            <div class = "water">
+                <h2>{{ water.name }}</h2>
+                <a href="/update_water/{{water.id}}">Update</a>
+                <a href="/delete_water/{{water.id}}">Delete</a>
+                <table width = "100%">
+                    <tr>
+                        <th></th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                    <tr>
+                        <td>pH</td>
+                        <td>{{ water.min_ph }}</td>
+                        <td>{{ water.max_ph }}</td>
+                    </tr>
+                    <tr>
+                        <td>EC</td>
+                        <td>{{ water.min_ec }}</td>
+                        <td>{{ water.max_ec }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

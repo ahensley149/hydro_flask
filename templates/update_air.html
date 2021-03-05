@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class = "form">
+    <h1>Update {{air.name}} Air Profile</h1>
+    <form action="/update_air/{{air.id}}" method="POST" id="enviro-form">
+        <div class = "left">
+        <label>Name:</label>
+        <input type="text" name="name" id="name" value="{{air.name}}">
+        <br /><br />
+        <label>Min Temperature: </label>
+        <input type="text" name="min_temp" id="min_temp" value="{{air.min_temp}}">
+        <label>Max Temperature: </label>
+        <input type="text" name="max_temp" id="max_temp" value="{{air.max_temp}}">
+        <br /><br />
+        <label>Min Humidity: </label>
+        <input type="text" name="min_humid" id="min_humid" value="{{air.min_humid}}">
+        <label>Max Humidity: </label>
+        <input type="text" name="max_humid" id="max_humid" value="{{air.max_humid}}">
+        <br /><br />
+        <input type="submit" value="Update Air Profile">
+    </form>
+</div>
+{% endblock %}

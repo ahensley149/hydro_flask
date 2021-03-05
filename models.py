@@ -35,8 +35,8 @@ class Light(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     model = db.Column(db.String(50))
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    start_time = db.Column(db.String(10))
+    end_time = db.Column(db.String(10))
     enviros = db.relationship('Enviro', backref='light', lazy=True)
 
     def __repr__(self):

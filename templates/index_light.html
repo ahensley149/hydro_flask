@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="content">
+    <h1>Manage Light Profiles</h1>
+    <hr class="line">
+    <div class = "container">
+        {% for light in lights %}
+            <div class = "light">
+                <h2>{{ light.name }}</h2>
+                <a href="/update_light/{{light.id}}">Update</a>
+                <a href="/delete_light/{{light.id}}">Delete</a>
+                <br />                
+                {{ light.model }}
+                <table width = "100%">
+                    <tr>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                    <tr>
+                        <td>{{ light.start_time }}</td>
+                        <td>{{ light.end_time }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
