@@ -42,7 +42,8 @@ ul {
 }
 
 .form {
-    text-align:center;
+    margin:20px;
+    float:left;
 }
 
 .environments{
@@ -57,7 +58,7 @@ ul {
     box-shadow: 0px 5px 5px #c9c9c9;
     border:1px solid #dadada;
     border-radius: 4px;
-    min-height:400px;
+    height: max-content;
     margin-top:10px;
 }
 
@@ -99,6 +100,12 @@ tr.alerts_panel > td.alert{
     font-size:1.4rem;
     box-shadow: 0px 2px 3px #c9c9c9;
 }
+.plant_list.right {
+    float:right;
+}
+.left {
+    float:left;
+}
 
 h3{
     font-size:5em;
@@ -114,4 +121,12 @@ h1.title{
 }
 h2 {
     text-align: center;
+    margin:5px;
+}
+.nav_title {
+    margin:2px;
+}
+
+select.multiple_select {
+    background:none;
 }

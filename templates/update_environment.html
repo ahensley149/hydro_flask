@@ -4,43 +4,98 @@
 <div class = "form">
     <h1>Update {{ enviro.name }} Environment</h1>
     <form action="/update_enviro/{{enviro.id}}" method="POST" id="enviro-form">
-        <label>Name:</label>
-        <input type="text" name="name" id="name" value="{{enviro.name}}">
-        <br />
-        <label>Water:</label>
-        <input type="text" name="water_id" id="water_id" value="{{enviro.water_id}}">
-        <label>Light:</label>
-        <input type="text" name="light_id" id="light_id" value="{{enviro.light_id}}">
-        <br />
-        <select name="ph_sensor" id="ph_sensor" form="enviro-form" default="{{enviro.ph_sensor}}">
-            <option value="0">pH Sensor</option>
-            <option value="1" {% if enviro.ph_sensor == 1 %} selected {% endif %}>Sensor #1</option>
-            <option value="2" {% if enviro.ph_sensor == 2 %} selected {% endif %}>Sensor #2</option>
-        </select>
-        <select name="ec_sensor" id="ec_sensor" form="enviro-form" default="{{enviro.ec_sensor}}">
-            <option value="0">EC Sensor</option>
-            <option value="1" {% if enviro.ec_sensor == 1 %} selected {% endif %}>Sensor #1</option>
-            <option value="2" {% if enviro.ec_sensor == 2 %} selected {% endif %}>Sensor #2</option>
-        </select>
-        <br />
-        <select name="water_pump" id="water_pump" form="enviro-form" defualt="{{enviro.water_pump}}">
-            <option value="0" {% if enviro.water_pump == 0 %} selected {% endif %}>Water Pump</option>
-            <option value="8" {% if enviro.water_pump == 8 %} selected {% endif %}>Outlet #1</option>
-            <option value="10" {% if enviro.water_pump == 10 %} selected {% endif %}>Outlet #2</option>
-            <option value="12" {% if enviro.water_pump == 12 %} selected {% endif %}>Outlet #3</option>
-            <option value="16" {% if enviro.water_pump == 16 %} selected {% endif %}>Outlet #4</option>
-            <option value="18" {% if enviro.water_pump == 18 %} selected {% endif %}>Outlet #5</option>
-            <option value="22" {% if enviro.water_pump == 22 %} selected {% endif %}>Outlet #6</option>
-            <option value="24" {% if enviro.water_pump == 24 %} selected {% endif %}>Outlet #7</option>
-        </select>
-        <br />        
-        {% for plant in plants %}
-            {{plant.name}} <input type = "checkbox" name="plant" id="plant" value="{{ plant.id }}">
+        <div class="left">
+            <label>Name:</label>
+            <input type="text" name="name" id="name" value="{{enviro.name}}">
+            <label>Active:</label>
+            <select name = "active" id = "active">
+                <option {% if enviro.active == 1 %} selected {% endif %} value = "1">Enabled</option>
+                <option {% if enviro.active == 0 %} selected {% endif %} value = "0">Disabled</option>
+            </select>
+            <br /><br />
+            <div>
+                <label>Water Profile:</label>
+                <select name="water_id" id="water_id" form="enviro-form">
+                    {% for water in waters %}
+                        <option {% if enviro.water_id == water.id %} selected {% endif %} value="{{water.id}}">{{ water.name }}</option>
+                    {% endfor %}
+                </select>
+                <label>Light Profile:</label>
+                <select name="light_id" id="light_id" form="enviro-form">
+                    {% for light in lights %}
+                        <option {% if enviro.light_id == light_id %} selected {% endif %} value="{{light.id}}">{{ light.name }}</option>
+                    {% endfor %}
+                </select>
+                <label>Air Profile:</label>
+                <select name="air_id" id="air_id" form="enviro-form">
+                    {% for air in airs %}
+                        <option {% if enviro.air_id == air.id %} selected {% endif %} value="{{air.id}}">{{ air.name }}</option>
+                    {% endfor %}
+                </select>
+                <br /><br />
+            </div>
+            <div>
+                Sensors: 
+                <select name="ph_sensor" id="ph_sensor" form="enviro-form" default="{{enviro.ph_sensor}}">
+                    <option value="0">pH Sensor</option>
+                    <option value="1" {% if enviro.ph_sensor == 1 %} selected {% endif %}>Sensor #1</option>
+                    <option value="2" {% if enviro.ph_sensor == 2 %} selected {% endif %}>Sensor #2</option>
+                </select>
+                <select name="ec_sensor" id="ec_sensor" form="enviro-form" default="{{enviro.ec_sensor}}">
+                    <option value="0">EC Sensor</option>
+                    <option value="1" {% if enviro.ec_sensor == 1 %} selected {% endif %}>Sensor #1</option>
+                    <option value="2" {% if enviro.ec_sensor == 2 %} selected {% endif %}>Sensor #2</option>
+                </select>
+            </div>
             <br />
-        {% endfor %}
-        <label>Active:</label>
-        <input type="checkbox" name="active" id="active" {% if enviro.active == 1 %} checked {% endif %} value="1">
-        <input type="submit" value="Update Enviroment">
+            <div>
+                Relays: 
+                <select name="water_pump" id="water_pump" form="enviro-form" defualt="{{enviro.water_pump}}">
+                    <option value="0" {% if enviro.water_pump == 0 %} selected {% endif %}>Water Pump</option>
+                    <option value="8" {% if enviro.water_pump == 8 %} selected {% endif %}>Outlet #1</option>
+                    <option value="10" {% if enviro.water_pump == 10 %} selected {% endif %}>Outlet #2</option>
+                    <option value="12" {% if enviro.water_pump == 12 %} selected {% endif %}>Outlet #3</option>
+                    <option value="16" {% if enviro.water_pump == 16 %} selected {% endif %}>Outlet #4</option>
+                    <option value="18" {% if enviro.water_pump == 18 %} selected {% endif %}>Outlet #5</option>
+                    <option value="22" {% if enviro.water_pump == 22 %} selected {% endif %}>Outlet #6</option>
+                    <option value="24" {% if enviro.water_pump == 24 %} selected {% endif %}>Outlet #7</option>
+                </select>
+                <select name="air_pump" id="air_pump" form="enviro-form">
+                    <option value="0" {% if enviro.air_pump == 0 %} selected {% endif %}>Air Pump</option>
+                    <option value="8" {% if enviro.air_pump == 8 %} selected {% endif %}>Outlet #1</option>
+                    <option value="10" {% if enviro.air_pump == 10 %} selected {% endif %}>Outlet #2</option>
+                    <option value="12" {% if enviro.air_pump == 12 %} selected {% endif %}>Outlet #3</option>
+                    <option value="16" {% if enviro.air_pump == 16 %} selected {% endif %}>Outlet #4</option>
+                    <option value="18" {% if enviro.air_pump == 18 %} selected {% endif %}>Outlet #5</option>
+                    <option value="22" {% if enviro.air_pump == 22 %} selected {% endif %}>Outlet #6</option>
+                    <option value="24" {% if enviro.air_pump == 24 %} selected {% endif %}>Outlet #7</option>
+                </select>
+                <select name="ph_solenoid" id="ph_solenoid" form="enviro-form">
+                    <option value="0">pH Solenoid</option>
+                    <option value="8">DC Outlet #1</option>
+                    <option value="10">DC Outlet #2</option>
+                    <option value="12">DC Outlet #3</option>
+                    <option value="16">DC Outlet #4</option>
+                </select>
+                <select name="nutrient_solenoid" id="nutrient_solenoid" form="enviro-form">
+                    <option value="0">Nutrient Solenoid</option>
+                    <option value="8">DC Outlet #1</option>
+                    <option value="10">DC Outlet #2</option>
+                    <option value="12">DC Outlet #3</option>
+                    <option value="16">DC Outlet #4</option>
+                </select>   
+            </div>
+            <br /><br />
+            <input type="submit" value="Update Environment">        
+        </div>
+        <div class = "plant_list right">  
+            <h2>Plants</h2>
+            <select multiple name="plant" id="plant" class="multiple_select">      
+                {% for plant in plants %}
+                    <option value="{{ plant.id }}">{{ plant.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </form>
 </div>
 {% endblock %}

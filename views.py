@@ -19,6 +19,8 @@ def add_environment():
       in the database, otherwise just returns the add_enviroment.html template
     """
     plants = Plant.query.all()
+    waters = Water.query.all()
+    lights = Light.query.all()
 
     if request.method == 'POST':
         name = request.form['name']
@@ -26,10 +28,18 @@ def add_environment():
         light = request.form['light_id']
         ph = request.form['ph_sensor']
         ec = request.form['ec_sensor']
-        active = request.form['active']
+        water_pump = request.form['water_pump']
+        air_pump = request.form['air_pump']
+        ph_solenoid = request.form['ph_solenoid']
+        nutrient_solenoid = request.form['nutrient_solenoid']
+        if not request.form['active']:
+            active = 0
+        else:
+            active = request.form['active']
         plants = request.form.getlist('plant')
         
-        new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec)
+        new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec,
+            water_pump=water_pump, air_pump=air_pump, ph_solenoid=ph_solenoid, nutrient_solenoid=nutrient_solenoid)
         for plant in plants:
             new_plant = Plant.query.get(plant)
             new_enviro.plants.append(new_plant)
@@ -42,7 +52,7 @@ def add_environment():
             return 'There was an issue adding your environment'
 
     else:
-        return render_template('add_environment.html', plants=plants)
+        return render_template('add_environment.html', plants=plants, waters=waters, lights=lights)
 
 @app.route('/update_enviro/<int:id>', methods=['POST', 'GET'])
 
@@ -73,7 +83,11 @@ def update_enviro(id):
             return 'Update Unsuccesful'
     else:
         plants = Plant.query.all()
-        return render_template('update_environment.html', enviro=enviro, plants=plants)
+        lights = Light.query.all()
+        airs = Air.query.all()
+        waters = Water.query.all()
+
+        return render_template('update_environment.html', enviro=enviro, plants=plants, lights=lights, airs=airs, waters=waters)
 
 @app.route('/delete_enviro/<int:id>')
 
@@ -89,12 +103,10 @@ def delete_enviro(id):
     except:
         return 'There was a problem delting that task'
         
-
-
 @app.route('/add_water', methods=['POST', 'GET'])
 
 def add_water_profile():
-    water1 = Water(name="Default")
+    water1 = Water(name='Default')
     try:
         db.session.add(water1)
         db.session.commit()
