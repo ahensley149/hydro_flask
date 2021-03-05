@@ -14,6 +14,8 @@
                 <ul>
                     {% for plant in enviro.plants %}
                         <li>{{ plant.name }}</li>
+                        {{ plant }}
+                        <li>{{ plant.plant_date }}</li>
                     {% endfor %}
                 </ul>
             </div>

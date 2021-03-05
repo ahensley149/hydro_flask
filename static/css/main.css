@@ -46,7 +46,7 @@ ul {
     float:left;
 }
 
-.environments{
+.environments, .sensors{
     display:grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
@@ -58,7 +58,7 @@ ul {
     gap: 1em;
 }
 
-.water, .plant, .light {
+.water, .plant, .light, .air, .pin {
     background-color: #fff;
     text-align: center;
     box-shadow: 0px 5px 5px #c9c9c9;
@@ -68,7 +68,7 @@ ul {
     margin-top:10px;
 }
 
-.environment{
+.environment, .sensor{
     background-color: #fff;
     text-align: center;
     box-shadow: 0px 5px 5px #c9c9c9;

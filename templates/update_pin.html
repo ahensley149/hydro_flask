@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class = "form">
+    <h1>Update Pin</h1>
+    <form action="/update_pin/{{pin.id}}" method="POST" id="enviro-form">
+        <div class = "left">
+            <label>Output:</label>
+            <select name="output" id="output">
+                <option {% if pin.output == 0 %} selected {% endif %} value = "0">Output</option>
+                <option {% if pin.output == 1 %} selected {% endif %} value = "1">AC</option>
+                <option {% if pin.output == 2 %} selected {% endif %} value = "2">DC</option>
+            </select>
+            <br /><br />
+            <label>Outlet Number: </label>
+            <input type="text" name="num" id="num" value="{{pin.num}}">
+            <label>GPIO Pin: </label>
+            <select name="gpio_pin" id="gpio_pin">
+                <option {% if pin.gpio_pin == 8 %} selected {% endif %} value="8">8</option>
+                <option {% if pin.gpio_pin == 10 %} selected {% endif %} value="10">10</option>
+                <option {% if pin.gpio_pin == 12 %} selected {% endif %} value="12">12</option>
+                <option {% if pin.gpio_pin == 16 %} selected {% endif %} value="16">16</option>
+                <option {% if pin.gpio_pin == 18 %} selected {% endif %} value="18">18</option>
+                <option {% if pin.gpio_pin == 22 %} selected {% endif %} value="22">22</option>
+                <option {% if pin.gpio_pin == 24 %} selected {% endif %} value="24">24</option>
+                <option {% if pin.gpio_pin == 26 %} selected {% endif %} value="26">26</option>
+            </select>
+            <br /><br />
+        <input type="submit" value="Update Pin">
+    </form>
+</div>
+{% endblock %}

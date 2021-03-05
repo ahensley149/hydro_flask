@@ -9,15 +9,23 @@ db = SQLAlchemy(app)
 
 plants = db.Table('plants',
     db.Column('plant_id', db.Integer, db.ForeignKey('plant.id'), primary_key=True),
-    db.Column('enviro_id', db.Integer, db.ForeignKey('enviro.id'), primary_key=True)
+    db.Column('enviro_id', db.Integer, db.ForeignKey('enviro.id'), primary_key=True),
+    db.Column('plant_date', db.DateTime, default=datetime.utcnow)
 )
+
+class Pin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    num = db.Column(db.Integer)
+    output = db.Column(db.Integer, default=0)
+    gpio_pin = db.Column(db.Integer, nullable=False)
+
 class Air(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     min_temp = db.Column(db.Integer, default=60)
     max_temp = db.Column(db.Integer, default=80)
-    min_humid = db.Column(db.Integer, default=60)
-    max_humid = db.Column(db.Integer, default=100)
+    min_humid = db.Column(db.Integer, default=50)
+    max_humid = db.Column(db.Integer, default=60)
 
 class Water(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +63,7 @@ class Enviro(db.Model):
     ph_solenoid = db.Column(db.Integer, default=0)
     water_pump = db.Column(db.Integer, default=0)
     air_pump = db.Column(db.Integer, default=0)
+    light_outlet = db.Column(db.Integer, default=0)
     active = db.Column(db.Integer, default=0)
     water_id = db.Column(db.Integer, db.ForeignKey('water.id'), nullable=False)
     light_id = db.Column(db.Integer, db.ForeignKey('light.id'), nullable=False)

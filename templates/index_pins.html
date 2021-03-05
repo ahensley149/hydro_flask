@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="content">
+    <h1>Manage GPIO Pins - <a href = "/add_pin">Assign New Pin</a></h1>
+    <hr class="line">
+    <table class="pin" width="45%" style="float:left;">
+        <tr>
+            <th>
+                AC Output Pins
+            </th>
+        </tr>
+        {% for ac_pin in ac_pins %}
+        <tr>
+            <td>
+                Outlet #{{ ac_pin.num }}
+            </td>
+            <td>
+                GPIO Pin #{{ ac_pin.gpio_pin }}
+            </td>
+            <td>
+                <a href ="/update_pin/{{ac_pin.id}}">Update</a> 
+                <a href ="/delete_pin/{{ac_pin.id}}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <table class="pin" width="45%" style="margin-left:5%;float:left;">
+        <tr>
+            <th>
+                DC Output Pins
+            </th>
+        </tr>
+        {% for dc_pin in dc_pins %}
+        <tr>
+            <td>
+                Outlet #{{ dc_pin.num }}
+            </td>
+            <td>
+                GPIO Pin #{{ dc_pin.gpio_pin }}
+            </td>
+            <td>
+                <a href ="/update_pin/{{dc_pin.id}}">Update</a> 
+                <a href ="/delete_pin/{{dc_pin.id}}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    </div>
+</div>
+{% endblock %}

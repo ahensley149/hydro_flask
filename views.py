@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from sensor_data import current_ph, current_ec
 from models import *
 
@@ -29,6 +29,7 @@ def add_environment():
     plants = Plant.query.all()
     waters = Water.query.all()
     lights = Light.query.all()
+    airs = Air.query.all()
 
     if request.method == 'POST':
         name = request.form['name']
@@ -40,16 +41,14 @@ def add_environment():
         air_pump = request.form['air_pump']
         ph_solenoid = request.form['ph_solenoid']
         nutrient_solenoid = request.form['nutrient_solenoid']
-        if not request.form['active']:
-            active = 0
-        else:
-            active = request.form['active']
+        active = request.form['active']
         plants = request.form.getlist('plant')
         
         new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec,
             water_pump=water_pump, air_pump=air_pump, ph_solenoid=ph_solenoid, nutrient_solenoid=nutrient_solenoid)
         for plant in plants:
             new_plant = Plant.query.get(plant)
+            new_plant.plant_date = str(date.today())
             new_enviro.plants.append(new_plant)
 
         try:
@@ -60,7 +59,7 @@ def add_environment():
             return 'There was an issue adding your environment'
 
     else:
-        return render_template('add_environment.html', plants=plants, waters=waters, lights=lights)
+        return render_template('add_environment.html', plants=plants, waters=waters, lights=lights, airs=airs)
 
 @app.route('/update_enviro/<int:id>', methods=['POST', 'GET'])
 
@@ -338,6 +337,93 @@ def delete_air_profile(id):
     except:
         return 'There was an issue deleting the air profile'
     
+
+@app.route('/pins')
+
+def list_pins():
+    ac_pins = Pin.query.filter_by(output = 1)
+    dc_pins = Pin.query.filter_by(output = 2)
+    return render_template('index_pins.html', ac_pins=ac_pins, dc_pins=dc_pins)
+
+@app.route('/add_pin', methods=['POST', 'GET'])
+
+def add_pin():
+    if request.method == 'POST':
+        num = request.form['num']
+        output = request.form['output']
+        gpio_pin = request.form['gpio_pin']
+
+        new_pin = Pin(num=num,output=output,gpio_pin=gpio_pin)
+
+        try:
+            db.session.add(new_pin)
+            db.session.commit()
+            return redirect('/pins')
+        except:
+            return 'There was an issue adding the pin'
+    
+    else:
+        return render_template('add_pin.html')
+
+@app.route('/update_pin/<int:id>', methods=['POST', 'GET'])
+
+def update_pin(id):
+    pin = Pin.query.get_or_404(id)
+    if request.method == 'POST':
+        pin.num = request.form['num']
+        pin.output = request.form['output']
+        pin.gpio_pin = request.form['gpio_pin']
+
+        try:
+            db.session.commit()
+            return redirect('/pins')
+        except:
+            return 'There was an issue updating the pin'
+    
+    else:
+        return render_template('update_pin.html', pin=pin)
+
+@app.route('/delete_pin/<int:id>', methods=['POST', 'GET'])
+
+def delete_pin(id):
+    pin = Pin.query.get_or_404(id)
+    try:
+        db.session.delete(pin)
+        db.session.commit()
+        return redirect('/pins')
+    except:
+        return 'There was an issue deleting the pin'
+
+@app.route('/sensors', methods=['POST', 'GET'])
+
+def sensors():
+    ph_level = current_ph(1)
+    ec_level = current_ec(1)
+    if request.method == 'POST':
+        if request.form['sensor'] == 'ph':
+            offset = ph_level - request.form['actual_ph']
+        else:
+            offset = ec_level - request.form['actual_ec']
+    
+        return offset
+    else:
+        return render_template('sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
+
+@app.route('/sensor/<int:sensor>', methods=['POST', 'GET'])
+
+def sensor_calibration(sensor):
+    ph_level = current_ph(1)
+    ec_level = current_ec(1)
+    if request.method == 'POST':
+        if sensor == 1:
+            offset = ph_level - float(request.form['actual_ph'])
+        else:
+            offset = ec_level - float(request.form['actual_ec'])
+    
+        return str(offset)
+    else:
+        return render_template('sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
