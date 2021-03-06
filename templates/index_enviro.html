@@ -1,31 +1,31 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class = "content">
-    <h1>Manage Environments</h1>
-    <hr class = "line">
+    <h1>Manage Environments</h1> 
+    + <a href="/add_enviro">Create New Environment</a>
+    <br />
     <div class = "environments">
     {% for enviro in enviros %}
         <div class = "environment">
             <h2>{{ enviro.name }}</h2>
-            <hr class = "line">
             <div class = "plant_list">
-                <b>Plants</b>
+                <h2>Plants</h2>
                 <ul>
                     {% for plant in enviro.plants %}
                         <li>{{ plant.name }}</li>
+                        <li>{{ plant.plant_date }}</li>
                     {% endfor %}
                 </ul>
             </div>
             <table class = "alerts_panel">
                 <tr>
-                    <th class = "alert_header">pH</th>
-                    <th class = "alert_header">EC</th>
+                    <th class = "alert_header {{ enviro.alert_status('ph') }}">pH</th>
+                    <th class = "alert_header {{ enviro.alert_status('ec') }}">EC</th>
                     <th class = "alert_header">Temp</th>
                     <th class = "alert_header">Humidity</th>
                 </tr>
                 <tr class = "alerts_panel">
-                    <td class = "{{ enviro.alert_status('ph') }}">
+                    <td class = "{{ enviro.alert_status('ph') }} ph">
                         <h3>{{ enviro.current_ph() }}</h3>
                         <table width = "100%">
                             <tr>
@@ -38,7 +38,7 @@
                             </tr>
                         </table>
                     </td>
-                    <td class = "{{ enviro.alert_status('ec') }}">
+                    <td class = "{{ enviro.alert_status('ec') }} ec">
                         <h3>{{ enviro.current_ec() }}</h3>
                         <table width = "100%">
                             <tr>
@@ -51,7 +51,7 @@
                             </tr>
                         </table>
                     </td>
-                    <td>
+                    <td class = "temp">
                         <h3>N/A</h3>
                         <table width = "100%">
                             <tr>
@@ -64,7 +64,7 @@
                             </tr>
                         </table>
                     </td>
-                    <td>
+                    <td class = "humid">
                         <h3>N/A</h3>
                         <table width = "100%">
                             <tr>
@@ -83,6 +83,5 @@
             <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
         </div>
     {% endfor %}
-</div>
 </div>
 {% endblock %}

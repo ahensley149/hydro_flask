@@ -4,6 +4,7 @@ from sensor_data import current_ph, current_ec
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
 db = SQLAlchemy(app)
 
