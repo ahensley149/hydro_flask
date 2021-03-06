@@ -6,12 +6,13 @@
     {% for enviro in enviros %}
         <div class = "environment">
             <h2>{{ enviro.name }}</h2>
+            <a href = "/update_enviro/{{enviro.id}}">Update</a>
+            <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
             <div class = "plant_list">
-                <h2>Plants</h2>
                 <ul>
+                    <li><h2>Plants</h2></li>
                     {% for plant in enviro.plants %}
                         <li>{{ plant.name }}</li>
-                        <li>{{ plant.plant_date }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -19,7 +20,9 @@
                 <tr>
                     <th class = "alert_header {{ enviro.alert_status('ph') }}">pH</th>
                     <th class = "alert_header {{ enviro.alert_status('ec') }}">EC</th>
-                    <th class = "alert_header">Temp</th>
+                    <th class = "alert_header">Water Temp</th>
+                    <th class = "alert_header">Water Level</th>
+                    <th class = "alert_header">Air Temp</th>
                     <th class = "alert_header">Humidity</th>
                 </tr>
                 <tr class = "alerts_panel">
@@ -46,6 +49,32 @@
                             <tr>
                                 <td>{{ enviro.water.min_ec }}</td>
                                 <td>{{ enviro.water.max_ec }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class = "water_temp">
+                        <h3>N/A</h3>
+                        <table width = "100%">
+                            <tr>
+                                <th>Min</th>
+                                <th>Max</th>
+                            </tr>
+                            <tr>
+                                <td>65</td>
+                                <td>85</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class = "water_level">
+                        <h3>N/A</h3>
+                        <table width = "100%">
+                            <tr>
+                                <th>Min</th>
+                                <th>Max</th>
+                            </tr>
+                            <tr>
+                                <td>65</td>
+                                <td>85</td>
                             </tr>
                         </table>
                     </td>
@@ -77,8 +106,6 @@
                     </td>
                 </tr>
             </table>
-            <a href = "/update_enviro/{{enviro.id}}">Update</a>
-            <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
         </div>
     {% endfor %}
 </div>
