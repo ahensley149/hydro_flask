@@ -35,6 +35,7 @@ def add_environment():
         name = request.form['name']
         water = request.form['water_id']
         light = request.form['light_id']
+        air = request.form['air_id']
         ph = request.form['ph_sensor']
         ec = request.form['ec_sensor']
         water_pump = request.form['water_pump']
@@ -45,7 +46,7 @@ def add_environment():
         plants = request.form.getlist('plant')
         
         new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec,
-            water_pump=water_pump, air_pump=air_pump, ph_solenoid=ph_solenoid, nutrient_solenoid=nutrient_solenoid)
+            water_pump=water_pump, air_pump=air_pump, ph_solenoid=ph_solenoid, nutrient_solenoid=nutrient_solenoid, air_id=air)
         for plant in plants:
             new_plant = Plant.query.get(plant)
             new_plant.plant_date = str(date.today())
@@ -76,12 +77,6 @@ def update_enviro(id):
         enviro.ph_sensor = request.form['ph_sensor']
         enviro.ec_sensor = request.form['ec_sensor']
         enviro.active = request.form['active']
-        plants = request.form.getlist('plant')
-        enviro.plants = []
-
-        for plant in plants:
-            new_plant = Plant.query.get(plant)
-            enviro.plants.append(new_plant)
 
         try:
             db.session.commit()
@@ -424,6 +419,104 @@ def sensor_calibration(sensor):
     else:
         return render_template('sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
 
+
+@app.route('/add_crop/<int:enviro_id>', methods=['POST', 'GET'])
+
+def add_crop(enviro_id):
+    if request.method == 'POST':
+        plants = request.form.getlist('plants')
+        date = datetime.today()
+        plant_date = date.strftime("%d/%m/%Y")
+        new_crop = Crop(enviro_id=enviro_id,plants=[],plant_date=plant_date)
+
+        for plant in plants:
+            new_plant = Plant.query.get(plant)
+            new_crop.plants.append(new_plant)
+
+        try:
+            db.session.add(new_crop)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding the crop'
+    
+    else:
+        plants = Plant.query.all()
+        return render_template('add_crop.html', plants=plants, enviro_id=enviro_id)
+
+@app.route('/crop/<int:id>', methods=['POST', 'GET'])
+
+def crop(id):
+    if request.method == 'POST':
+        crop = Crop.query.get_or_404(id)
+        if request.form['milestone'] == 'germ':
+            crop.germ_date = request.form['date']
+        elif request.form['milestone'] == 'fruit':
+            crop.fruit_date = request.form['date']
+        elif request.form['milestone'] == 'harvest':
+            crop.harvested_date = request.form['date']
+
+        try:
+            db.session.commit()
+            return redirect('/crop/{}'.format(id))
+        except:
+            return 'There was an issue adding the crop'
+    
+    else:
+        crop = Crop.query.get_or_404(id)
+        today1 = date.today()
+        today1 = today1.strftime("%Y-%m-%d")
+
+        return render_template('manage_crop.html', crop=crop,today=today1)
+
+@app.route('/delete_crop/<int:id>', methods=['POST', 'GET'])
+
+def delete_crop(id):
+    crop = Crop.query.get_or_404(id)
+    try:
+        db.session.delete(crop)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was an issue deleting the crop'
+
+@app.route('/add_log/<int:crop_id>', methods=['POST', 'GET'])
+
+def add_log(crop_id):
+    if request.method == 'POST':
+        if request.form['task']:
+            task = request.form['task']
+            note_date = request.form['note_date']
+            note = request.form['note']
+            new_log = Log(crop_id=crop_id,note_date=note_date, task=task, note=note)
+            try:
+                db.session.add(new_log)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'There was an issue adding the log'
+        else:
+            today1 = date.today()
+            note_date = str(today1.strftime("%d/%m/%Y"))
+            note=request.form['note']
+            new_log = Log(crop_id=crop_id,note_date=note_date,note=note)
+            try:
+                db.session.add(new_log)
+                db.session.commit()
+                return redirect('/crop/'+crop_id)
+            except:
+                return 'There was an issue adding the log'
+                
+@app.route('/delete_log/<int:id>', methods=['POST', 'GET'])
+
+def delete_log(id):
+    log = Log.query.get_or_404(id)
+    try:
+        db.session.delete(log)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was an issue deleting the log'
 
 if __name__ == "__main__":
     app.run(debug=True)

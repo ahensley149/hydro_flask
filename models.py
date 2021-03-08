@@ -8,11 +8,30 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
 db = SQLAlchemy(app)
 
-plants = db.Table('plants',
+crop_plants = db.Table('crop_plants',
     db.Column('plant_id', db.Integer, db.ForeignKey('plant.id'), primary_key=True),
-    db.Column('enviro_id', db.Integer, db.ForeignKey('enviro.id'), primary_key=True),
-    db.Column('plant_date', db.DateTime, default=datetime.utcnow)
+    db.Column('crop_id', db.Integer, db.ForeignKey('crop.id'), primary_key=True)
 )
+
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.id'))
+    task = db.Column(db.String(100), nullable=True)
+    note = db.Column(db.String(255), nullable=True)
+    note_date = db.Column(db.String(30), default='')
+    crops = db.relationship('Crop', backref='log', lazy=True)
+
+class Crop(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    enviro_id = db.Column(db.Integer, db.ForeignKey('enviro.id'))
+    germ_date = db.Column(db.String(30), nullable=True)
+    plant_date = db.Column(db.String(30), default='')
+    harvested_date = db.Column(db.String(30), nullable=True)
+    fruit_date = db.Column(db.String(30), nullable=True)
+    harvest_rating = db.Column(db.String(255), nullable=True)
+    logs = db.relationship('Log', backref='log')
+    plants = db.relationship('Plant', secondary='crop_plants',
+        backref=db.backref('plant', lazy=True))
 
 class Pin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,6 +46,7 @@ class Air(db.Model):
     max_temp = db.Column(db.Integer, default=80)
     min_humid = db.Column(db.Integer, default=50)
     max_humid = db.Column(db.Integer, default=60)
+    enviros = db.relationship('Enviro', backref='air', lazy=True)
 
 class Water(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,6 +74,10 @@ class Light(db.Model):
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    best_ec = db.Column(db.Float, nullable=True)
+    best_temp = db.Column(db.Integer, nullable=True)
+    best_season = db.Column(db.String(15), nullable=True)
+
 
 class Enviro(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,8 +92,9 @@ class Enviro(db.Model):
     active = db.Column(db.Integer, default=0)
     water_id = db.Column(db.Integer, db.ForeignKey('water.id'), nullable=False)
     light_id = db.Column(db.Integer, db.ForeignKey('light.id'), nullable=False)
-    plants = db.relationship('Plant', secondary=plants, lazy='subquery',
-        backref=db.backref('enviros', lazy=True))
+    air_id = db.Column(db.Integer, db.ForeignKey('air.id'), nullable=False)
+    crop = db.relationship('Crop', backref='crop')
+
 
     def current_ph(self):
         """Retrieves the current pH level of the water from the ph sensor attached to

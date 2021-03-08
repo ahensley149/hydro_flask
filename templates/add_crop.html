@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Add Crop</h1>
+<div class = "form">
+    <form action="/add_crop/{{enviro_id}}" method="POST" id="enviro-form">
+        <div class = "left">
+        <select name="plants" id="plants" multiple>
+            {% for plant in plants %}
+                <option value = "{{plant.id}}">{{ plant.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><br />
+        <input type="submit" value="Add Crop">
+    </form>
+</div>
+{% endblock %}

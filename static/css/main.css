@@ -1,6 +1,5 @@
 body {
     background: rgb(236,236,236);
-    margin: 0;
 }
 
 a {
@@ -19,12 +18,16 @@ h1{
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: rgb(92, 112, 149);
 }
-
+.add_note{
+    grid-column: span 2;
+}
+.notes{
+    grid-column: span 3;
+}
 .left-col {
     float:left;
     clear:none;
     position:absolute;
-    height: 100%;
     background: rgb(255,255,255);
     background: rgb(255,255,255);
     padding:20px;
@@ -140,10 +143,51 @@ tr.alerts_panel > td{
 .plant_list {
     margin: 20px 0px 0px 20px;
     padding:5px 20px;
-    width:20%;
     display:block;
     text-align: left;
     border-radius:10px;
+    float:left;
+}
+.crop{
+    grid-template-columns: 2fr 1fr 1fr;
+}
+.crop_list, .milestone_links, .extra_tasks, .add_note, .notes {
+    padding:5px 20px;
+    display:block;
+    text-align: center;
+    border-radius:10px;
+    float:left;
+    background-color: #fff;
+
+}
+#note, #task{
+    width:95%;
+}
+.task_list{
+    text-align: left;
+}
+.bold{
+    font-weight:bold;
+    width: 170px;
+    padding-left: 16px;
+    display:inline-block;
+}
+
+#date{
+    font-size:1.8em;
+}
+#date_btn{
+    width:45%;
+    font-size:1em;
+}
+.crop_plants {
+    font-size:1.5em;
+}
+#note_date{
+    margin:auto;
+    display:block;
+    font-size:2em;
+    float:none;
 }
 .plant_list.right {
     float:right;
@@ -157,18 +201,22 @@ a.active{
     display:inline-block;
     margin-left:-20px;
 }
+a#nav_link{
+    width:80px;
+    display:inline-block;
+    margin-left:-20px;
+    padding:10px;
+}
 
 a.active > img {
-    margin-left:10px;
-    width: 80px;
-    padding:10px 0;
+    float:left
 }
 .nav_link{
-    width:50px;
+    width:70px;
 }
 h3{
     font-size:3em;
-    color: rgb(31, 28, 43);
+    color: #fff;
     margin:2px;
 }
 
@@ -187,6 +235,9 @@ h2 {
     color: #436a67;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #fff;
+}
+h2.date{
+    font-size:2em;
 }
 .nav_title {
     margin:2px;

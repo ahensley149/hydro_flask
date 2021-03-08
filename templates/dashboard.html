@@ -6,16 +6,31 @@
     {% for enviro in enviros %}
         <div class = "environment">
             <h2>{{ enviro.name }}</h2>
-            <a href = "/update_enviro/{{enviro.id}}">Update</a>
+            <div><a href = "/update_enviro/{{enviro.id}}">Update</a>
+            -
             <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
+            - 
+            <a href = "/add_crop/{{enviro.id}}">Add Crop</a>
+        </div>
+            {% for current_crop in enviro.crop %}
+            <a href="/crop/{{current_crop.id}}">
             <div class = "plant_list">
+
                 <ul>
-                    <li><h2>Plants</h2></li>
-                    {% for plant in enviro.plants %}
-                        <li>{{ plant.name }}</li>
-                    {% endfor %}
+                    <li>
+                        <h2 class = "date">
+                        {{current_crop.plant_date}}
+                        </h2>
+                    </li>
+
+                        {% for plant in current_crop.plants %}
+                    
+                            <li>{{ plant.name }}</li>
+                            {% endfor %}
                 </ul>
             </div>
+            </a>
+            {% endfor %}
             <table class = "alerts_panel">
                 <tr>
                     <th class = "alert_header {{ enviro.alert_status('ph') }}">pH</th>
@@ -69,12 +84,12 @@
                         <h3>N/A</h3>
                         <table width = "100%">
                             <tr>
-                                <th>Min</th>
-                                <th>Max</th>
+                                <th>Cap.</th>
+                                <th>Usage</th>
                             </tr>
                             <tr>
-                                <td>65</td>
-                                <td>85</td>
+                                <td>17 Gal</td>
+                                <td>1 Gal</td>
                             </tr>
                         </table>
                     </td>
@@ -86,8 +101,8 @@
                                 <th>Max</th>
                             </tr>
                             <tr>
-                                <td>65</td>
-                                <td>85</td>
+                                <td>{{enviro.air.min_temp}}</td>
+                                <td>{{enviro.air.max_temp}}</td>
                             </tr>
                         </table>
                     </td>
@@ -99,8 +114,8 @@
                                 <th>Max</th>
                             </tr>
                             <tr>
-                                <td>50%</td>
-                                <td>100%</td>
+                                <td>{{enviro.air.min_humid}}</td>
+                                <td>{{enviro.air.max_humid}}</td>
                             </tr>
                         </table>
                     </td>
