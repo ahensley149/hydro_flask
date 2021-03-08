@@ -56,9 +56,11 @@
             <h2>Manual Tasks Performed</h2>
             <ul>
             {% for log in crop.logs %}
+                {% if log.task %}
                 <li>
                     <div class="task_list">{{ log.note_date }} <span class="bold">{{ log.task }}</span> {{ log.note }}</div> 
                 </li>
+                {% endif %}
             {% endfor %}
             </ul>
         </div>
@@ -67,6 +69,7 @@
             <br />
             <form action="/add_log/{{crop.id}}" method="POST" id="enviro-form">
                 <input type="text" id="note" name="note" value="">
+                <input type="text" id="task" name="task" hidden value="note">
                 <br /><br />
                 <input type="submit" value="Add Note">
             </form>
@@ -75,9 +78,11 @@
             <h2>Extra Notes</h2>
             <ul>
             {% for log in crop.logs %}
+                {% if not log.task %}
                 <li>
                     <div class="task_list">{{ log.note_date }}&nbsp; - &nbsp;{{ log.note }}</div> 
                 </li>
+                {% endif %}
             {% endfor %}
             </ul>
         </div>

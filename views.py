@@ -484,7 +484,18 @@ def delete_crop(id):
 
 def add_log(crop_id):
     if request.method == 'POST':
-        if request.form['task']:
+        if request.form['task'] == 'note':
+            today1 = date.today()
+            note_date = str(today1.strftime("%d/%m/%Y"))
+            note=request.form['note']
+            new_log = Log(crop_id=crop_id,note_date=note_date,note=note)
+            try:
+                db.session.add(new_log)
+                db.session.commit()
+                return redirect('/crop/{}'.format(crop_id))
+            except:
+                return 'There was an issue adding the log'
+        else:
             task = request.form['task']
             note_date = request.form['note_date']
             note = request.form['note']
@@ -493,17 +504,6 @@ def add_log(crop_id):
                 db.session.add(new_log)
                 db.session.commit()
                 return redirect('/')
-            except:
-                return 'There was an issue adding the log'
-        else:
-            today1 = date.today()
-            note_date = str(today1.strftime("%d/%m/%Y"))
-            note=request.form['note']
-            new_log = Log(crop_id=crop_id,note_date=note_date,note=note)
-            try:
-                db.session.add(new_log)
-                db.session.commit()
-                return redirect('/crop/'+crop_id)
             except:
                 return 'There was an issue adding the log'
                 
