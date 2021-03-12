@@ -10,7 +10,7 @@ def dashboard():
       template to display
     """
     environments = Enviro.query.filter(Enviro.active == 1)
-    return render_template('dashboard.html', enviros=environments)
+    return render_template('enviro/dashboard.html', enviros=environments)
 
 @app.route('/enviro')
 
@@ -18,7 +18,7 @@ def list_environments():
     """Index of all environments for updating and deleting
     """
     environments = Enviro.query.all()    
-    return render_template('index_enviro.html', enviros=environments)
+    return render_template('enviro/index_enviro.html', enviros=environments)
 
 @app.route('/add_enviro', methods=['POST', 'GET'])
 
@@ -60,7 +60,7 @@ def add_environment():
             return 'There was an issue adding your environment'
 
     else:
-        return render_template('add_environment.html', plants=plants, waters=waters, lights=lights, airs=airs)
+        return render_template('enviro/add_environment.html', plants=plants, waters=waters, lights=lights, airs=airs)
 
 @app.route('/update_enviro/<int:id>', methods=['POST', 'GET'])
 
@@ -89,7 +89,7 @@ def update_enviro(id):
         airs = Air.query.all()
         waters = Water.query.all()
 
-        return render_template('update_environment.html', enviro=enviro, plants=plants, lights=lights, airs=airs, waters=waters)
+        return render_template('enviro/update_environment.html', enviro=enviro, plants=plants, lights=lights, airs=airs, waters=waters)
 
 @app.route('/delete_enviro/<int:id>')
 
@@ -109,7 +109,7 @@ def delete_enviro(id):
 
 def list_water_profile():
     waters = Water.query.all()
-    return render_template('index_water.html', waters=waters)
+    return render_template('water/index_water.html', waters=waters)
         
 @app.route('/add_water', methods=['POST', 'GET'])
 
@@ -120,17 +120,24 @@ def add_water_profile():
         max_ph = request.form['max_ph']
         min_ec = request.form['min_ec']
         max_ec = request.form['max_ec']
+        start_time = request.form['start_time']
+        duration = request.form['duration']
+        recurring = request.form['recurring']
         new_water = Water(name=name, min_ph=min_ph, max_ph=max_ph, min_ec=min_ec, max_ec=max_ec)
+        
 
         try:
             db.session.add(new_water)
+            db.session.commit()
+            new_cycle = Cycle(water_id=new_water.id, start_time=start_time, duration=duration, recurring=recurring)
+            db.session.add(new_cycle)
             db.session.commit()
             return redirect('/water')
         except:
             return 'There was an issue adding your water profile'
     
     else:
-        return render_template('add_water.html')
+        return render_template('water/add_water.html')
 
 @app.route('/update_water/<int:id>', methods=['POST', 'GET'])
 
@@ -150,7 +157,7 @@ def update_water_profile(id):
             return 'There was an issue updating the water profile'
     
     else:
-        return render_template('update_water.html', water=water)
+        return render_template('water/update_water.html', water=water)
 
 @app.route('/delete_water/<int:id>', methods=['POST', 'GET'])
 
@@ -163,14 +170,11 @@ def delete_water_profile(id):
     except:
         return 'There was an issue deleting the water profile'
     
-    else:
-        return render_template('update_water.html', water=water)
-
 @app.route('/light')
 
 def list_light_profiles():
     lights = Light.query.all()
-    return render_template('index_light.html', lights=lights)
+    return render_template('light/index_light.html', lights=lights)
 
 @app.route('/add_light', methods=['POST', 'GET'])
 
@@ -190,7 +194,7 @@ def add_light_profile():
             return 'There was an issue adding the light profile'
     
     else:
-        return render_template('add_light.html')
+        return render_template('light/add_light.html')
 
 @app.route('/update_light/<int:id>', methods=['POST', 'GET'])
 
@@ -209,7 +213,7 @@ def update_light_profile(id):
             return 'There was an issue updating the light profile'
     
     else:
-        return render_template('update_light.html', light=light)
+        return render_template('light/update_light.html', light=light)
 
 @app.route('/delete_light/<int:id>', methods=['POST', 'GET'])
 
@@ -226,7 +230,7 @@ def delete_light_profile(id):
 
 def list_plant_profiles():
     plants = Plant.query.all()
-    return render_template('index_plant.html', plants=plants)
+    return render_template('plant/index_plant.html', plants=plants)
 
 @app.route('/add_plant', methods=['POST', 'GET'])
 
@@ -243,7 +247,7 @@ def add_plant_profile():
             return 'There was an issue adding the plant'
     
     else:
-        return render_template('add_plant.html')
+        return render_template('plant/add_plant.html')
 
 @app.route('/update_plant/<int:id>', methods=['POST', 'GET'])
 
@@ -259,7 +263,7 @@ def update_plant_profile(id):
             return 'There was an issue updating the plant'
     
     else:
-        return render_template('update_plant.html', plant=plant)
+        return render_template('plant/update_plant.html', plant=plant)
 
 @app.route('/delete_plant/<int:id>', methods=['POST', 'GET'])
 
@@ -277,7 +281,7 @@ def delete_plant_profile(id):
 
 def list_air_profiles():
     airs = Air.query.all()
-    return render_template('index_air.html', airs=airs)
+    return render_template('air/index_air.html', airs=airs)
 
 @app.route('/add_air', methods=['POST', 'GET'])
 
@@ -299,7 +303,7 @@ def add_air_profile():
             return 'There was an issue adding the air profile'
     
     else:
-        return render_template('add_air.html')
+        return render_template('air/add_air.html')
 
 @app.route('/update_air/<int:id>', methods=['POST', 'GET'])
 
@@ -319,7 +323,7 @@ def update_air_profile(id):
             return 'There was an issue updating the air profile'
     
     else:
-        return render_template('update_air.html', air=air)
+        return render_template('air/update_air.html', air=air)
 
 @app.route('/delete_air/<int:id>', methods=['POST', 'GET'])
 
@@ -338,7 +342,16 @@ def delete_air_profile(id):
 def list_pins():
     ac_pins = Pin.query.filter_by(output = 1)
     dc_pins = Pin.query.filter_by(output = 2)
-    return render_template('index_pins.html', ac_pins=ac_pins, dc_pins=dc_pins)
+    ph_level = current_ph(1)
+    ec_level = current_ec(1)
+    if request.method == 'POST':
+        if request.form['sensor'] == 'ph':
+            offset = ph_level - request.form['actual_ph']
+        else:
+            offset = ec_level - request.form['actual_ec']
+    
+        return offset
+    return render_template('pin/index_pins.html', ac_pins=ac_pins, dc_pins=dc_pins, ph_level=ph_level, ec_level=ec_level)
 
 @app.route('/add_pin', methods=['POST', 'GET'])
 
@@ -358,7 +371,7 @@ def add_pin():
             return 'There was an issue adding the pin'
     
     else:
-        return render_template('add_pin.html')
+        return render_template('pin/add_pin.html')
 
 @app.route('/update_pin/<int:id>', methods=['POST', 'GET'])
 
@@ -376,7 +389,7 @@ def update_pin(id):
             return 'There was an issue updating the pin'
     
     else:
-        return render_template('update_pin.html', pin=pin)
+        return render_template('pin/update_pin.html', pin=pin)
 
 @app.route('/delete_pin/<int:id>', methods=['POST', 'GET'])
 
@@ -402,7 +415,7 @@ def sensors():
     
         return offset
     else:
-        return render_template('sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
+        return render_template('pin/sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
 
 @app.route('/sensor/<int:sensor>', methods=['POST', 'GET'])
 
@@ -417,7 +430,7 @@ def sensor_calibration(sensor):
     
         return str(offset)
     else:
-        return render_template('sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
+        return render_template('pin/sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
 
 
 @app.route('/add_crop/<int:enviro_id>', methods=['POST', 'GET'])
@@ -442,7 +455,7 @@ def add_crop(enviro_id):
     
     else:
         plants = Plant.query.all()
-        return render_template('add_crop.html', plants=plants, enviro_id=enviro_id)
+        return render_template('crop/add_crop.html', plants=plants, enviro_id=enviro_id)
 
 @app.route('/crop/<int:id>', methods=['POST', 'GET'])
 
@@ -467,7 +480,7 @@ def crop(id):
         today1 = date.today()
         today1 = today1.strftime("%Y-%m-%d")
 
-        return render_template('manage_crop.html', crop=crop,today=today1)
+        return render_template('crop/manage_crop.html', crop=crop,today=today1)
 
 @app.route('/delete_crop/<int:id>', methods=['POST', 'GET'])
 

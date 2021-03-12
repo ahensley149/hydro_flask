@@ -18,6 +18,32 @@
         <label>Max EC: </label>
         <input type="text" name="max_ec" id="max_ec" value="1.6">
         <br /><br />
+        Water Schedule:
+        <br />
+        <br />
+        <label>Start Time: </label>
+        <input type="time" name="start_time" id="end_time">
+        <label>Duration: </label>
+        <select name="duration" id="duration" value="15">
+            {% for i in range(1,61) %}
+                <option value="{{i}}">
+                    {{i}} Minutes
+                </option>
+            {%endfor%}
+        </select>
+        <br />
+        <label>Recurring: </label>
+        <select name="recurring" id="recurring" value="0">
+            <option value="0">
+                Off
+            </option>
+            {% for i in range(1,13) %}
+                <option value="{{i}}">
+                    Every {{i}} Hours
+                </option>
+            {%endfor%}
+        </select>
+        <br /><br />
         <input type="submit" value="Add Water Profile">
     </form>
 </div>

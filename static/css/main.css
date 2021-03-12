@@ -80,6 +80,10 @@ li{
     grid-template-columns: 1fr 1fr;
     gap: 1em;
 }
+.sensors{
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+}
 
 .container{
     display:grid;
@@ -110,8 +114,13 @@ li{
     border-radius: 15px;
     height: max-content;
     margin-top:10px;
+    display:flex;
+    flex-wrap:wrap;
 }
 
+.sensor{
+    flex-direction: column;
+}
 .line {
     height: 3px;
     border: none;
@@ -126,10 +135,10 @@ li{
 }
 
 table.alerts_panel {
-    width: 90%;
     margin-top: 20px;
     margin:auto;
     margin-bottom:10px;
+    width:90%;
 }
 
 th.alert_header {
@@ -141,12 +150,12 @@ tr.alerts_panel > td{
     border-radius: 10px;
 }
 .plant_list {
-    margin: 20px 0px 0px 20px;
+    margin: 20px 0 0 2%;
     padding:5px 20px;
     display:block;
     text-align: left;
     border-radius:10px;
-    float:left;
+    width:30%;
 }
 .crop{
     grid-template-columns: 2fr 1fr 1fr;
@@ -160,8 +169,11 @@ tr.alerts_panel > td{
     background-color: #fff;
 
 }
-#note, #task{
+#note {
     width:95%;
+}
+#task {
+    width:50%;
 }
 .task_list{
     text-align: left;
@@ -184,10 +196,10 @@ tr.alerts_panel > td{
     font-size:1.5em;
 }
 #note_date{
-    margin:auto;
     display:block;
     font-size:2em;
-    float:none;
+    float:left;
+    margin:3px 0 0 5%;
 }
 .plant_list.right {
     float:right;
@@ -206,6 +218,17 @@ a#nav_link{
     display:inline-block;
     margin-left:-20px;
     padding:10px;
+}
+.recent_photo{
+    display:block;
+    margin-top:20px;
+    margin-left:2%;
+    width:55%;
+}
+img.recent_photo{
+    width:100%;
+    margin: 20px 0 0 0;
+    border-radius:10px
 }
 
 a.active > img {

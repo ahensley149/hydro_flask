@@ -5,32 +5,35 @@
     <div class = "environments">
     {% for enviro in enviros %}
         <div class = "environment">
+            <div style="width:90%">
             <h2>{{ enviro.name }}</h2>
-            <div><a href = "/update_enviro/{{enviro.id}}">Update</a>
+        <a href = "/update_enviro/{{enviro.id}}">Update</a>
             -
             <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
-            - 
-            <a href = "/add_crop/{{enviro.id}}">Add Crop</a>
         </div>
+        <div class = "plant_list">
+            <h2 class ="date">Current Crops &nbsp;<a href = "/add_crop/{{enviro.id}}">+</a></h2>
             {% for current_crop in enviro.crop %}
             <a href="/crop/{{current_crop.id}}">
-            <div class = "plant_list">
 
                 <ul>
-                    <li>
-                        <h2 class = "date">
+                    <li style="text-align:center;">
                         {{current_crop.plant_date}}
-                        </h2>
                     </li>
 
                         {% for plant in current_crop.plants %}
                     
                             <li>{{ plant.name }}</li>
-                            {% endfor %}
+                        {% endfor %}
                 </ul>
-            </div>
             </a>
             {% endfor %}
+        </div>
+        <div class="recent_photo">
+            <h2 class="date">Last Photo</h2>
+            <img class="recent_photo" src="{{ url_for('static', filename='img/test-recent-photo.jpg') }}">
+            Mar 7th @ 8:00AM
+        </div>
             <table class = "alerts_panel">
                 <tr>
                     <th class = "alert_header {{ enviro.alert_status('ph') }}">pH</th>

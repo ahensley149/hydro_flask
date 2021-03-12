@@ -27,6 +27,19 @@
                         <td>{{ water.max_ec }}</td>
                     </tr>
                 </table>
+                <br />
+                <table width = "100%">
+                    <tr>
+                        <th>Start Time:</th>
+                        <th>Duration:</th>
+                    </tr>
+                    {% for cycle in water.cycles %}
+                    <tr>
+                        <td>{{ cycle.start_time }}</td>
+                        <td>{{ cycle.duration }} Minutes</td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         {% endfor %}
     </div>

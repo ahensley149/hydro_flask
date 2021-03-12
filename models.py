@@ -13,6 +13,21 @@ crop_plants = db.Table('crop_plants',
     db.Column('crop_id', db.Integer, db.ForeignKey('crop.id'), primary_key=True)
 )
 
+class Cycle(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    water_id = db.Column(db.Integer, db.ForeignKey('water.id'))
+    start_time = db.Column(db.String(10))
+    duration = db.Column(db.Integer, nullable=False)
+    recurring = db.Column(db.Integer, nullable=True)
+    waters = db.relationship('Water', backref='cycle', lazy=True)
+
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.id'))
+    file_name = db.Column(db.String(100), nullable=True)
+    taken = db.Column(db.String(30), nullable=False)
+    crops = db.relationship('Crop', backref='photo', lazy=True)
+
 class Log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     crop_id = db.Column(db.Integer, db.ForeignKey('crop.id'))
@@ -30,6 +45,7 @@ class Crop(db.Model):
     fruit_date = db.Column(db.String(30), nullable=True)
     harvest_rating = db.Column(db.String(255), nullable=True)
     logs = db.relationship('Log', backref='log')
+    photos = db.relationship('Photo', backref='photo')
     plants = db.relationship('Plant', secondary='crop_plants',
         backref=db.backref('plant', lazy=True))
 
@@ -55,6 +71,7 @@ class Water(db.Model):
     max_ph = db.Column(db.Float, default=6.5)
     min_ec = db.Column(db.Float, default=1.2)
     max_ec = db.Column(db.Float, default=1.6)
+    cycles = db.relationship('Cycle', backref='cycle')
     enviros = db.relationship('Enviro', backref='water', lazy=True)
 
     def __repr__(self):

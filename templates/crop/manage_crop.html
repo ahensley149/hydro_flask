@@ -1,27 +1,37 @@
 {% extends 'layout.html' %}
 {% block body %}
-    <h1>Planted on {{crop.plant_date}}</h1>
-    {% if crop.germ_date %}<h1>Germinated on {{crop.germ_date}}</h1>{%endif%}
-    {% if crop.fruit_date %}<h1>Fruited on {{crop.fruit_date}}</h1>{%endif%}
-    {% if crop.harvested_date %}<h1>Harvested on {{crop.harvested_date}}</h1>{%endif%}
+    {% if not crop.germ_date and not crop.fruit_date and not crop.harvested_date %}
+        <h1>
+        {% endif %}
+            Planted on {{ crop.plant_date }} &nbsp;&nbsp;&nbsp;&nbsp;
+        </h1>
+    {% if crop.germ_date %}
+        {% if not crop.fruit_date and not crop.harvested_date %}
+        <h1>
+        {% endif %}
+            Germinated on {{crop.germ_date}} &nbsp;&nbsp;&nbsp;&nbsp;
+        </h1>
+    {%endif%}
+    {% if crop.fruit_date %}
+        {% if not crop.harvested_date %}
+        <h1>
+        {% endif %}
+            Fruited on {{crop.fruit_date}}
+        </h1>
+    {%endif%}
+    {% if crop.harvested_date %}
+        <h1>Harvested on {{crop.harvested_date}}</h1>
+    {%endif%}
     <br />
     <div class = "container crop">
         <div class = "extra_tasks">
             <h2>Add Manual Task</h2>
             <br />
-            <form action="/add_log/{{crop.id}}" method="POST" id="enviro-form">
-                <input type="date" id="note_date" name="note_date" value="{{today}}">
-                <br /><br />
-                <input type="text" id="task" name="task" value="What did you do?">
-                <br /><br />
-                <input type="text" id="note" name="note" value="More Details">
-                <br /><br />
-                <input type="submit" value="Add Task">
-            </form>
+
         </div>
         <div class = "milestone_links">
             <h2>Set Milestones</h2>
-            <br /><br />
+            <br />
             <form action="/crop/{{crop.id}}" method="POST" id="enviro-form"width ="100%">
                 <input type="date" id="date" name="date" value="{{today}}">
                 <input type="text" id="milestone" name="milestone" hidden value="germ">
@@ -39,6 +49,8 @@
                 <input type="text" id="milestone" name="milestone" hidden value="harvest">
                 <input type="submit" value="Harvest Date" id="date_btn">
             </form>
+            <br />
+
         </div>
         <div class = "crop_list">
             <ul>
@@ -53,37 +65,44 @@
             </ul>
         </div>
         <div class = "extra_tasks">
-            <h2>Manual Tasks Performed</h2>
+            <h2>Manual Tasks</h2>
+            <br />
+            <form action="/add_log/{{crop.id}}" method="POST" id="enviro-form">
+                <input type="date" id="note_date" name="note_date" value="{{today}}">
+
+                <input type="text" id="task" name="task" value="What did you do?">
+                <br /><br />
+                <input type="text" id="note" name="note" value="More Details">
+                <br /><br />
+                <input type="submit" value="Add Task">
+            </form>
             <ul>
-            {% for log in crop.logs %}
-                {% if log.task %}
-                <li>
-                    <div class="task_list">{{ log.note_date }} <span class="bold">{{ log.task }}</span> {{ log.note }}</div> 
-                </li>
-                {% endif %}
-            {% endfor %}
+                {% for log in crop.logs %}
+                    {% if log.task %}
+                    <li>
+                        <div class="task_list">{{ log.note_date }} <span class="bold">{{ log.task }}</span> {{ log.note }}</div> 
+                    </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
         <div class = "add_note">
-            <h2>Add Note</h2>
+            <h2>Notes</h2>
             <br />
             <form action="/add_log/{{crop.id}}" method="POST" id="enviro-form">
                 <input type="text" id="note" name="note" value="">
                 <input type="text" id="task" name="task" hidden value="note">
                 <br /><br />
                 <input type="submit" value="Add Note">
-            </form>
-        </div>
-        <div class = "notes">
-            <h2>Extra Notes</h2>
+            </form>            
             <ul>
-            {% for log in crop.logs %}
-                {% if not log.task %}
-                <li>
-                    <div class="task_list">{{ log.note_date }}&nbsp; - &nbsp;{{ log.note }}</div> 
-                </li>
-                {% endif %}
-            {% endfor %}
+                {% for log in crop.logs %}
+                    {% if not log.task %}
+                    <li>
+                        <div class="task_list">{{ log.note_date }}&nbsp; - &nbsp;{{ log.note }}</div> 
+                    </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
     </div>
