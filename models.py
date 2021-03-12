@@ -14,6 +14,10 @@ crop_plants = db.Table('crop_plants',
 )
 
 class Cycle(db.Model):
+    """Controls the cycle times and durations of watering and other recurring events,
+      each water_profile can have multiple cycles for customized schedules or just one
+      cycle with recurring times throughout the day
+    """
     id = db.Column(db.Integer, primary_key=True)
     water_id = db.Column(db.Integer, db.ForeignKey('water.id'))
     start_time = db.Column(db.String(10))
@@ -22,6 +26,7 @@ class Cycle(db.Model):
     waters = db.relationship('Water', backref='cycle', lazy=True)
 
 class Photo(db.Model):
+    """Stores photo information for crop photos to show progress over time"""
     id = db.Column(db.Integer, primary_key=True)
     crop_id = db.Column(db.Integer, db.ForeignKey('crop.id'))
     file_name = db.Column(db.String(100), nullable=True)
@@ -29,6 +34,10 @@ class Photo(db.Model):
     crops = db.relationship('Crop', backref='photo', lazy=True)
 
 class Log(db.Model):
+    """Stores different information for crops that doesn't fit in predefined elements
+      such as manual tasks performed for outdoor crops not controlled by the automated system
+      or just notes that might be useful for future crops
+    """
     id = db.Column(db.Integer, primary_key=True)
     crop_id = db.Column(db.Integer, db.ForeignKey('crop.id'))
     task = db.Column(db.String(100), nullable=True)
@@ -37,6 +46,11 @@ class Log(db.Model):
     crops = db.relationship('Crop', backref='log', lazy=True)
 
 class Crop(db.Model):
+    """Crop is a link between plants and environments to help harvest data on 
+      how different plants behave in different environments while still keeping
+      both plants and environments reusable and easily updated for future use and
+      keeping all the crop data stored for future analysis
+    """
     id = db.Column(db.Integer, primary_key=True)
     enviro_id = db.Column(db.Integer, db.ForeignKey('enviro.id'))
     germ_date = db.Column(db.String(30), nullable=True)
@@ -50,12 +64,19 @@ class Crop(db.Model):
         backref=db.backref('plant', lazy=True))
 
 class Pin(db.Model):
+    """Pin stores different GPIO pins on the RaspberryPI board as either input
+      or Ouput-broken into AC and DC
+    """
+    #TODO integrate pin list into enviro functions to make outlets easily scalable
     id = db.Column(db.Integer, primary_key=True)
     num = db.Column(db.Integer)
     output = db.Column(db.Integer, default=0)
     gpio_pin = db.Column(db.Integer, nullable=False)
 
 class Air(db.Model):
+    """Stores settings for different air profiles to help study air
+      effect on plant growth, defaults to recommended ranges
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     min_temp = db.Column(db.Integer, default=60)
@@ -65,6 +86,10 @@ class Air(db.Model):
     enviros = db.relationship('Enviro', backref='air', lazy=True)
 
 class Water(db.Model):
+    """Water stores different ph and ec levels for different uses in reusable profiles,
+      each water object also can have many cycles to give complete control over watering
+      schedules.
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     min_ph = db.Column(db.Float, default=5.5)
@@ -78,6 +103,9 @@ class Water(db.Model):
         return '<Water %r>' % self.id
 
 class Light(db.Model):
+    """Stores light models and time schedules to help find the best cheap
+      light to grow with based on results over time with different models
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     model = db.Column(db.String(50))
@@ -89,6 +117,10 @@ class Light(db.Model):
         return '<Water %r>' % self.id
 
 class Plant(db.Model):
+    """Stores Plant profiles containing pertinent plant information to 
+      help recommend settings and plant groupings in the future once some 
+      data has been harvested
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     best_ec = db.Column(db.Float, nullable=True)
@@ -97,6 +129,12 @@ class Plant(db.Model):
 
 
 class Enviro(db.Model):
+    """Enviro is the main container which brings all the classes and datas together,
+      Each enviro can have a range of environment sensors and output relays allowing
+      it to work with varying levels of automation, it also has many crops to store data
+      on all the different plants that are growing in the environment and has a water air
+      and light profile to set environment variables for testing
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     ph_sensor = db.Column(db.Integer, default=0)
@@ -132,6 +170,7 @@ class Enviro(db.Model):
         return float(ec_level)
     
     def alert_status(self, sensor):
+        """Returns alert status to set color of alert on dashboard environment panel"""
         if sensor == "ph":
             if self.ph_sensor == 0:
                 return

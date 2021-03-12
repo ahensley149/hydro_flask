@@ -4,24 +4,22 @@ from models import *
 
 
 @app.route('/', methods=['POST', 'GET'])
-
 def dashboard():
     """Home page view of the app, passes all active environments to dashboard.html
-      template to display
+      template to display pertinent information
     """
     environments = Enviro.query.filter(Enviro.active == 1)
     return render_template('enviro/dashboard.html', enviros=environments)
 
-@app.route('/enviro')
 
+@app.route('/enviro')
 def list_environments():
-    """Index of all environments for updating and deleting
-    """
+    """Index of all environments for updating and deleting"""
     environments = Enviro.query.all()    
     return render_template('enviro/index_enviro.html', enviros=environments)
 
-@app.route('/add_enviro', methods=['POST', 'GET'])
 
+@app.route('/add_enviro', methods=['POST', 'GET'])
 def add_environment():
     """If there is a POST request to /add_enviro, it creates a new enviro row
       in the database, otherwise just returns the add_enviroment.html template
@@ -62,8 +60,8 @@ def add_environment():
     else:
         return render_template('enviro/add_environment.html', plants=plants, waters=waters, lights=lights, airs=airs)
 
-@app.route('/update_enviro/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/update_enviro/<int:id>', methods=['POST', 'GET'])
 def update_enviro(id):
     """If there is a POST request to /update_enviro/{id}, it updates the enviro row
       in the database, otherwise just returns the update_enviroment.html template
@@ -91,9 +89,8 @@ def update_enviro(id):
 
         return render_template('enviro/update_environment.html', enviro=enviro, plants=plants, lights=lights, airs=airs, waters=waters)
 
+
 @app.route('/delete_enviro/<int:id>')
-
-
 def delete_enviro(id):
     """Deletes the environment related to the id sent to /delete_enviro/{id}"""
     enviro_to_delete = Enviro.query.get_or_404(id)
@@ -105,15 +102,19 @@ def delete_enviro(id):
     except:
         return 'There was a problem delting that task'
 
-@app.route('/water')
 
+@app.route('/water')
 def list_water_profile():
+    """Index of all water profiles for updating and deleting"""
     waters = Water.query.all()
     return render_template('water/index_water.html', waters=waters)
         
-@app.route('/add_water', methods=['POST', 'GET'])
 
+@app.route('/add_water', methods=['POST', 'GET'])
 def add_water_profile():
+    """If there is a POST request to /add_water, it creates a new water row
+      in the database, otherwise just returns the add_water.html template
+    """
     if request.method == 'POST':
         name = request.form['name']
         min_ph = request.form['min_ph']
@@ -124,7 +125,6 @@ def add_water_profile():
         duration = request.form['duration']
         recurring = request.form['recurring']
         new_water = Water(name=name, min_ph=min_ph, max_ph=max_ph, min_ec=min_ec, max_ec=max_ec)
-        
 
         try:
             db.session.add(new_water)
@@ -135,13 +135,15 @@ def add_water_profile():
             return redirect('/water')
         except:
             return 'There was an issue adding your water profile'
-    
     else:
         return render_template('water/add_water.html')
 
-@app.route('/update_water/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/update_water/<int:id>', methods=['POST', 'GET'])
 def update_water_profile(id):
+    """If there is a POST request to /update_water/{id}, it updates the water row
+      in the database, otherwise just returns the update_water.html template
+    """
     water = Water.query.get_or_404(id)
     if request.method == 'POST':
         water.name = request.form['name']
@@ -155,13 +157,13 @@ def update_water_profile(id):
             return redirect('/water')
         except:
             return 'There was an issue updating the water profile'
-    
     else:
         return render_template('water/update_water.html', water=water)
 
-@app.route('/delete_water/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/delete_water/<int:id>')
 def delete_water_profile(id):
+    """Deletes the water profile related to the id sent to /delete_water/{id}"""
     water = Water.query.get_or_404(id)
     try:
         db.session.delete(water)
@@ -170,15 +172,19 @@ def delete_water_profile(id):
     except:
         return 'There was an issue deleting the water profile'
     
-@app.route('/light')
 
+@app.route('/light')
 def list_light_profiles():
+    """Index of all light profiles for updating and deleting"""
     lights = Light.query.all()
     return render_template('light/index_light.html', lights=lights)
 
-@app.route('/add_light', methods=['POST', 'GET'])
 
+@app.route('/add_light', methods=['POST', 'GET'])
 def add_light_profile():
+    """If there is a POST request to /add_light, it creates a new light row
+      in the database, otherwise just returns the add_light.html template
+    """
     if request.method == 'POST':
         name = request.form['name']
         model = request.form['model']
@@ -192,13 +198,15 @@ def add_light_profile():
             return redirect('/light')
         except:
             return 'There was an issue adding the light profile'
-    
     else:
         return render_template('light/add_light.html')
 
-@app.route('/update_light/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/update_light/<int:id>', methods=['POST', 'GET'])
 def update_light_profile(id):
+    """If there is a POST request to /update_light/{id}, it updates the light row
+      in the database, otherwise just returns the update_light.html template
+    """
     light = Light.query.get_or_404(id)
     if request.method == 'POST':
         light.name = request.form['name']
@@ -211,13 +219,13 @@ def update_light_profile(id):
             return redirect('/light')
         except:
             return 'There was an issue updating the light profile'
-    
     else:
         return render_template('light/update_light.html', light=light)
 
-@app.route('/delete_light/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/delete_light/<int:id>')
 def delete_light_profile(id):
+    """Deletes the light profile related to the id sent to /delete_light/{id}"""
     light = Light.query.get_or_404(id)
     try:
         db.session.delete(light)
@@ -226,15 +234,19 @@ def delete_light_profile(id):
     except:
         return 'There was an issue deleting the light profile'
 
-@app.route('/plant')
 
+@app.route('/plant')
 def list_plant_profiles():
+    """Index of all plant profiles for updating and deleting"""
     plants = Plant.query.all()
     return render_template('plant/index_plant.html', plants=plants)
 
-@app.route('/add_plant', methods=['POST', 'GET'])
 
+@app.route('/add_plant', methods=['POST', 'GET'])
 def add_plant_profile():
+    """If there is a POST request to /add_plant, it creates a new water row
+      in the database, otherwise just returns the add_plant.html template
+    """
     if request.method == 'POST':
         name = request.form['name']
         new_plant = Plant(name=name)
@@ -245,13 +257,15 @@ def add_plant_profile():
             return redirect('/plant')
         except:
             return 'There was an issue adding the plant'
-    
     else:
         return render_template('plant/add_plant.html')
 
-@app.route('/update_plant/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/update_plant/<int:id>', methods=['POST', 'GET'])
 def update_plant_profile(id):
+    """If there is a POST request to /update_plant/{id}, it updates the plant row
+      in the database, otherwise just returns the update_plant.html template
+    """
     plant = Plant.query.get_or_404(id)
     if request.method == 'POST':
         plant.name = request.form['name']
@@ -265,9 +279,10 @@ def update_plant_profile(id):
     else:
         return render_template('plant/update_plant.html', plant=plant)
 
-@app.route('/delete_plant/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/delete_plant/<int:id>')
 def delete_plant_profile(id):
+    """Deletes the plant profile related to the id sent to /delete_plant/{id}"""
     plant = Plant.query.get_or_404(id)
     try:
         db.session.delete(plant)
@@ -278,14 +293,17 @@ def delete_plant_profile(id):
     
 
 @app.route('/air')
-
 def list_air_profiles():
+    """Index of all airr profiles for updating and deleting"""
     airs = Air.query.all()
     return render_template('air/index_air.html', airs=airs)
 
-@app.route('/add_air', methods=['POST', 'GET'])
 
+@app.route('/add_air', methods=['POST', 'GET'])
 def add_air_profile():
+    """If there is a POST request to /add_air, it creates a new air row
+      in the database, otherwise just returns the add_air.html template
+    """
     if request.method == 'POST':
         name = request.form['name']
         min_temp = request.form['min_temp']
@@ -301,13 +319,15 @@ def add_air_profile():
             return redirect('/air')
         except:
             return 'There was an issue adding the air profile'
-    
     else:
         return render_template('air/add_air.html')
 
-@app.route('/update_air/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/update_air/<int:id>', methods=['POST', 'GET'])
 def update_air_profile(id):
+    """If there is a POST request to /update_air/{id}, it updates the air row
+      in the database, otherwise just returns the update_air.html template
+    """
     air = Air.query.get_or_404(id)
     if request.method == 'POST':
         air.name = request.form['name']
@@ -321,13 +341,13 @@ def update_air_profile(id):
             return redirect('/air')
         except:
             return 'There was an issue updating the air profile'
-    
     else:
         return render_template('air/update_air.html', air=air)
 
-@app.route('/delete_air/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/delete_air/<int:id>')
 def delete_air_profile(id):
+    """Deletes the air profile related to the id sent to /delete_air/{id}"""
     air = Air.query.get_or_404(id)
     try:
         db.session.delete(air)
@@ -338,8 +358,12 @@ def delete_air_profile(id):
     
 
 @app.route('/pins')
-
 def list_pins():
+    """Index of all pins for updating and deleting and
+      sensor calibration for attached sensors with a current value reading 
+      and input box for correct value to calculate offset for calibration
+    """
+    # TODO add auto calibration by using offset value calculated to update sensor_data.py
     ac_pins = Pin.query.filter_by(output = 1)
     dc_pins = Pin.query.filter_by(output = 2)
     ph_level = current_ph(1)
@@ -353,14 +377,16 @@ def list_pins():
         return offset
     return render_template('pin/index_pins.html', ac_pins=ac_pins, dc_pins=dc_pins, ph_level=ph_level, ec_level=ec_level)
 
-@app.route('/add_pin', methods=['POST', 'GET'])
 
+@app.route('/add_pin', methods=['POST', 'GET'])
 def add_pin():
+    """If there is a POST request to /add_pin, it creates a new pin row
+      in the database, otherwise just returns the add_pin.html template
+    """
     if request.method == 'POST':
         num = request.form['num']
         output = request.form['output']
         gpio_pin = request.form['gpio_pin']
-
         new_pin = Pin(num=num,output=output,gpio_pin=gpio_pin)
 
         try:
@@ -369,13 +395,15 @@ def add_pin():
             return redirect('/pins')
         except:
             return 'There was an issue adding the pin'
-    
     else:
         return render_template('pin/add_pin.html')
 
-@app.route('/update_pin/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/update_pin/<int:id>', methods=['POST', 'GET'])
 def update_pin(id):
+    """If there is a POST request to /update_pin/{id}, it updates the pin row
+      in the database, otherwise just returns the update_pin.html template
+    """
     pin = Pin.query.get_or_404(id)
     if request.method == 'POST':
         pin.num = request.form['num']
@@ -387,13 +415,13 @@ def update_pin(id):
             return redirect('/pins')
         except:
             return 'There was an issue updating the pin'
-    
     else:
         return render_template('pin/update_pin.html', pin=pin)
 
-@app.route('/delete_pin/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/delete_pin/<int:id>')
 def delete_pin(id):
+    """Deletes the pin related to the id sent to /delete_pin/{id}"""
     pin = Pin.query.get_or_404(id)
     try:
         db.session.delete(pin)
@@ -402,9 +430,12 @@ def delete_pin(id):
     except:
         return 'There was an issue deleting the pin'
 
-@app.route('/sensors', methods=['POST', 'GET'])
 
+@app.route('/sensors', methods=['POST', 'GET'])
 def sensors():
+    """OUTDATED - added sensor calibration to pins page
+      Will Delete Soon once settings/pin page is finalized
+    """
     ph_level = current_ph(1)
     ec_level = current_ec(1)
     if request.method == 'POST':
@@ -417,9 +448,12 @@ def sensors():
     else:
         return render_template('pin/sensor_calibration.html', ph_level=ph_level, ec_level=ec_level)
 
-@app.route('/sensor/<int:sensor>', methods=['POST', 'GET'])
 
+@app.route('/sensor/<int:sensor>', methods=['POST', 'GET'])
 def sensor_calibration(sensor):
+    """OUTDATED - added sensor calibration to pins page
+      Will Delete Soon once settings/pin page is finalized
+    """
     ph_level = current_ph(1)
     ec_level = current_ec(1)
     if request.method == 'POST':
@@ -434,8 +468,11 @@ def sensor_calibration(sensor):
 
 
 @app.route('/add_crop/<int:enviro_id>', methods=['POST', 'GET'])
-
 def add_crop(enviro_id):
+    """If there is a POST request to /add_crop/{enviro_id}, it creates a new crop row
+      in the database associated with the passed enviro_id and plant date of today, 
+      otherwise just returns the add_crop/{enviro_id}.html template
+    """
     if request.method == 'POST':
         plants = request.form.getlist('plants')
         date = datetime.today()
@@ -452,14 +489,20 @@ def add_crop(enviro_id):
             return redirect('/')
         except:
             return 'There was an issue adding the crop'
-    
     else:
         plants = Plant.query.all()
         return render_template('crop/add_crop.html', plants=plants, enviro_id=enviro_id)
 
-@app.route('/crop/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/crop/<int:id>', methods=['POST', 'GET'])
 def crop(id):
+    """Displays crop data for current crop and allows for updating crop progress
+      Allows adding manual task and additional notes, setting milestone dates,
+      adding photos, and splitting plants from the crop into a seperate crop
+    """
+    #TODO setup photos class to store periodic photos of crop and display most recent one
+    #TODO add split crop feature to split crops that need their own notes while copying all current date into new row
+    #TODO add harvested button to milestone dates allowing setting of havest rating and harvest note and removing from current list
     if request.method == 'POST':
         crop = Crop.query.get_or_404(id)
         if request.form['milestone'] == 'germ':
@@ -474,7 +517,6 @@ def crop(id):
             return redirect('/crop/{}'.format(id))
         except:
             return 'There was an issue adding the crop'
-    
     else:
         crop = Crop.query.get_or_404(id)
         today1 = date.today()
@@ -482,9 +524,10 @@ def crop(id):
 
         return render_template('crop/manage_crop.html', crop=crop,today=today1)
 
-@app.route('/delete_crop/<int:id>', methods=['POST', 'GET'])
 
+@app.route('/delete_crop/<int:id>')
 def delete_crop(id):
+    """Deletes the crop related to the id sent to /delete_crop/{id}"""
     crop = Crop.query.get_or_404(id)
     try:
         db.session.delete(crop)
@@ -493,9 +536,12 @@ def delete_crop(id):
     except:
         return 'There was an issue deleting the crop'
 
-@app.route('/add_log/<int:crop_id>', methods=['POST', 'GET'])
 
+@app.route('/add_log/<int:crop_id>', methods=['POST', 'GET'])
 def add_log(crop_id):
+    """If there is a POST request to /add_log{crop_id}, it creates a new log row 
+      associated with the crop_id passed, as a task or just a note in the database
+    """
     if request.method == 'POST':
         if request.form['task'] == 'note':
             today1 = date.today()
@@ -516,13 +562,14 @@ def add_log(crop_id):
             try:
                 db.session.add(new_log)
                 db.session.commit()
-                return redirect('/')
+                return redirect('/crop/{}'.format(crop_id))
             except:
                 return 'There was an issue adding the log'
-                
-@app.route('/delete_log/<int:id>', methods=['POST', 'GET'])
 
+
+@app.route('/delete_log/<int:id>')
 def delete_log(id):
+    """Deletes the log related to the id sent to /delete_log/{id}"""
     log = Log.query.get_or_404(id)
     try:
         db.session.delete(log)
@@ -533,5 +580,3 @@ def delete_log(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
