@@ -3,9 +3,9 @@
     <h1>Manage Plant Profiles</h1>
     + <a href="/add_plant">Add New Plant</a>
     <br />
-    <div class = "container">
+    <div class="container">
         {% for plant in plants %}
-            <div class = "plant">
+            <div class="plant">
                 <h2>{{ plant.name }}</h2>
                 <a href="/update_plant/{{plant.id}}">Update</a>
                 -

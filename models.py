@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
 db = SQLAlchemy(app)
 
+# Many to many association table for crops and plants
 crop_plants = db.Table('crop_plants',
     db.Column('plant_id', db.Integer, db.ForeignKey('plant.id'), primary_key=True),
     db.Column('crop_id', db.Integer, db.ForeignKey('crop.id'), primary_key=True)

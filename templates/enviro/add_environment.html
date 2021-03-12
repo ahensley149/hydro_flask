@@ -1,98 +1,88 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Create New Environment</h1>
-<div class = "form">
-    <form action="/add_enviro" method="POST" id="enviro-form">
-        <div class = "left">
-        <label>Name:</label>
-        <input type="text" name="name" id="name">
-        <select name = "active" id = "active">
-            <option value = "1">Enabled</option>
-            <option value = "0">Disabled</option>
-        </select>
-        <br /><br />
-        <label>Water Profile:</label>
-        <select name="water_id" id="water_id" form="enviro-form">
-            {% for water in waters %}
-                <option value="{{water.id}}">{{ water.name }}</option>
-            {% endfor %}
-        </select>
-        <label>Light Profile:</label>
-        <select name="light_id" id="light_id" form="enviro-form">
-            {% for light in lights %}
-                <option value="{{light.id}}">{{ light.name }}</option>
-            {% endfor %}
-        </select>
-        <label>Air Profile:</label>
-        <select name="air_id" id="air_id" form="enviro-form">
-            {% for air in airs %}
-                <option value="{{air.id}}">{{ air.name }}</option>
-            {% endfor %}
-        </select>
-        <br /><br />
-        <div>
-            Sensors:
-            <select name="ph_sensor" id="ph_sensor" form="enviro-form">
-                <option value="0">pH Sensor</option>
-                <option value="1">Sensor #1</option>
-                <option value="2">Sensor #2</option>
+    <h1>Create New Environment</h1>
+    <div class = "form">
+        <form action="/add_enviro" method="POST" id="enviro-form">
+            <label>Name:</label>
+            <input type="text" name="name" id="name">
+            <select name = "active" id = "active">
+                <option value = "1">Enabled</option>
+                <option value = "0">Disabled</option>
             </select>
-            <select name="ec_sensor" id="ec_sensor" form="enviro-form">
-                <option value="0">EC Sensor</option>
-                <option value="1">Sensor #1</option>
-                <option value="2">Sensor #2</option>
-            </select>
-        </div>
-        <br />
-        <div>
-            Relays:
-            <select name="water_pump" id="water_pump" form="enviro-form">
-                <option value="0">Water Pump</option>
-                <option value="8">Outlet #1</option>
-                <option value="10">Outlet #2</option>
-                <option value="12">Outlet #3</option>
-                <option value="16">Outlet #4</option>
-                <option value="18">Outlet #5</option>
-                <option value="22">Outlet #6</option>
-                <option value="24">Outlet #7</option>
-            </select>
-            <select name="air_pump" id="air_pump" form="enviro-form">
-                <option value="0">Air Pump</option>
-                <option value="8">Outlet #1</option>
-                <option value="10">Outlet #2</option>
-                <option value="12">Outlet #3</option>
-                <option value="16">Outlet #4</option>
-                <option value="18">Outlet #5</option>
-                <option value="22">Outlet #6</option>
-                <option value="24">Outlet #7</option>
-            </select>
-            <select name="ph_solenoid" id="ph_solenoid" form="enviro-form">
-                <option value="0">pH Solenoid</option>
-                <option value="8">DC Outlet #1</option>
-                <option value="10">DC Outlet #2</option>
-                <option value="12">DC Outlet #3</option>
-                <option value="16">DC Outlet #4</option>
-            </select>
-            <select name="nutrient_solenoid" id="nutrient_solenoid" form="enviro-form">
-                <option value="0">Nutrient Solenoid</option>
-                <option value="8">DC Outlet #1</option>
-                <option value="10">DC Outlet #2</option>
-                <option value="12">DC Outlet #3</option>
-                <option value="16">DC Outlet #4</option>
-            </select>
-        </div>
-        <br />
-        <input type="submit" value="Add Enviroment">
-    </div>
-        <div class = "plant_list right">  
-            <h2>Plants</h2>
-            <select multiple name="plant" id="plant" class="multiple_select">      
-                {% for plant in plants %}
-                    <option value="{{ plant.id }}">{{ plant.name }}</option>
+            <br /><br />
+            <label>Water Profile:</label>
+            <select name="water_id" id="water_id" form="enviro-form">
+                {% for water in waters %}
+                    <option value="{{water.id}}">{{ water.name }}</option>
                 {% endfor %}
             </select>
-        </div>
-    </form>
-</div>
+            <label>Light Profile:</label>
+            <select name="light_id" id="light_id" form="enviro-form">
+                {% for light in lights %}
+                    <option value="{{light.id}}">{{ light.name }}</option>
+                {% endfor %}
+            </select>
+            <label>Air Profile:</label>
+            <select name="air_id" id="air_id" form="enviro-form">
+                {% for air in airs %}
+                    <option value="{{air.id}}">{{ air.name }}</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+            <div>
+                Sensors:
+                <select name="ph_sensor" id="ph_sensor" form="enviro-form">
+                    <option value="0">pH Sensor</option>
+                    <option value="1">Sensor #1</option>
+                    <option value="2">Sensor #2</option>
+                </select>
+                <select name="ec_sensor" id="ec_sensor" form="enviro-form">
+                    <option value="0">EC Sensor</option>
+                    <option value="1">Sensor #1</option>
+                    <option value="2">Sensor #2</option>
+                </select>
+            </div>
+            <br />
+            <div>
+                Relays:
+                <select name="water_pump" id="water_pump" form="enviro-form">
+                    <option value="0">Water Pump</option>
+                    <option value="8">Outlet #1</option>
+                    <option value="10">Outlet #2</option>
+                    <option value="12">Outlet #3</option>
+                    <option value="16">Outlet #4</option>
+                    <option value="18">Outlet #5</option>
+                    <option value="22">Outlet #6</option>
+                    <option value="24">Outlet #7</option>
+                </select>
+                <select name="air_pump" id="air_pump" form="enviro-form">
+                    <option value="0">Air Pump</option>
+                    <option value="8">Outlet #1</option>
+                    <option value="10">Outlet #2</option>
+                    <option value="12">Outlet #3</option>
+                    <option value="16">Outlet #4</option>
+                    <option value="18">Outlet #5</option>
+                    <option value="22">Outlet #6</option>
+                    <option value="24">Outlet #7</option>
+                </select>
+                <select name="ph_solenoid" id="ph_solenoid" form="enviro-form">
+                    <option value="0">pH Solenoid</option>
+                    <option value="8">DC Outlet #1</option>
+                    <option value="10">DC Outlet #2</option>
+                    <option value="12">DC Outlet #3</option>
+                    <option value="16">DC Outlet #4</option>
+                </select>
+                <select name="nutrient_solenoid" id="nutrient_solenoid" form="enviro-form">
+                    <option value="0">Nutrient Solenoid</option>
+                    <option value="8">DC Outlet #1</option>
+                    <option value="10">DC Outlet #2</option>
+                    <option value="12">DC Outlet #3</option>
+                    <option value="16">DC Outlet #4</option>
+                </select>
+            </div>
+            <br />
+            <input type="submit" value="Add Enviroment">
+        </form>
+    </div>
 {% endblock %}

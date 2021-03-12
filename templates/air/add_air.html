@@ -1,24 +1,39 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Add Air Profile</h1>
-<div class = "form">
-    <form action="/add_air" method="POST" id="enviro-form">
-        <div class = "left">
-        <label>Name:</label>
-        <input type="text" name="name" id="name">
-        <br /><br />
-        <label>Min Temperature: </label>
-        <input type="text" name="min_temp" id="min_temp" value="65">
-        <label>Max Temperature: </label>
-        <input type="text" name="max_temp" id="max_temp" value="68">
-        <br /><br />
-        <label>Min Humidity: </label>
-        <input type="text" name="min_humid" id="min_humid" value="50">
-        <label>Max Humidity: </label>
-        <input type="text" name="max_humid" id="max_humid" value="60">
-        <br /><br />
-        <input type="submit" value="Add Air Profile">
-    </form>
-</div>
+    <h1>Add Air Profile</h1>
+    <div class="form">
+        <form action="/add_air" method="POST">
+            <label>Name: </label>
+            <input type="text" name="name" id="name">
+            <br /><br />
+            <label>Min Temperature: </label>
+            <select name="min_temp" id="min_temp">
+                {% for i in range(101) %}
+                    <option value="{{i}}" {% if i == 65 %} selected {% endif %}>{{i}}*F</option>
+                {% endfor %}
+            </select>
+            <label>Max Temperature: </label>
+            <select name="max_temp" id="max_temp">
+                {% for i in range(101) %}
+                    <option value="{{i}}" {% if i == 68 %} selected {% endif %}>{{i}}*F</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+            <label>Min Humidity: </label>
+            <select name="min_humid" id="min_humid">
+                {% for i in range(101) %}
+                    <option value="{{i}}" {% if i == 50 %} selected {% endif %}>{{i}}%</option>
+                {% endfor %}
+            </select>
+            <label>Max Humidity: </label>
+            <select name="max_humid" id="max_humid">
+                {% for i in range(101) %}
+                    <option value="{{i}}" {% if i == 60 %} selected {% endif %}>{{i}}%</option>
+                {% endfor %}
+            </select>
+            <br /><br />
+            <input type="submit" value="Add Air Profile">
+        </form>
+    </div>
 {% endblock %}

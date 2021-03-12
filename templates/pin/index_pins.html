@@ -48,27 +48,26 @@
     </table>
     <br /><br /><br />
     <h1>Sensor Calibration</h1>
-    <div class = "sensors">
-        <div class = "sensor">
+    <div class="sensors">
+        <div class="sensor">
             <h2>pH Sensor #1</h2>
             <h1>{{ph_level}}</h1>
-            <form action = "/sensor/1" method = "POST">
+            <form action="/sensor/1" method="POST">
                 <label>Actual pH: </label>
                 <input type="text" id="actual_ph" name="actual_ph">
                 <input type="submit" value="Update Offset">
             </form>
             <br /><br />
         </div>
-        <div class = "sensor">
+        <div class="sensor">
             <h2>EC Sensor #1</h2>
             <h1>{{ec_level}}</h1>
-            <form action = "/sensor/2" method = "POST">
+            <form action="/sensor/2" method="POST">
                 <label>Actual EC: </label>
                 <input type="text" id="actual_ec" name="actual_ec">
                 <input type="submit" value="Update Offset">
             </form>
             <br /><br />
         </div>
-    </div>
     </div>
 {% endblock %}

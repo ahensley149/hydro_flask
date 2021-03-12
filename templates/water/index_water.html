@@ -3,9 +3,9 @@
     <h1>Manage Water Profiles</h1>
     + <a href="/add_water">Create New Water Profile</a>
     <br />
-    <div class = "container">
+    <div class="container">
         {% for water in waters %}
-            <div class = "water">
+            <div class="water">
                 <h2>{{ water.name }}</h2>
                 <a href="/update_water/{{water.id}}">Update</a>
                 - 
@@ -28,7 +28,7 @@
                     </tr>
                 </table>
                 <br />
-                <table width = "100%">
+                <table width="100%">
                     <tr>
                         <th>Start Time:</th>
                         <th>Duration:</th>
@@ -43,5 +43,4 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}

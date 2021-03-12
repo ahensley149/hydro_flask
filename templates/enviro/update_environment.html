@@ -1,10 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Update {{ enviro.name }} Environment</h1>
-<div class = "form">
-    <form action="/update_enviro/{{enviro.id}}" method="POST" id="enviro-form">
-        <div class="left">
+    <h1>Update {{ enviro.name }} Environment</h1>
+    <div class = "form">
+        <form action="/update_enviro/{{enviro.id}}" method="POST" id="enviro-form">
             <label>Name:</label>
             <input type="text" name="name" id="name" value="{{enviro.name}}">
             <label>Active:</label>
@@ -87,15 +86,6 @@
             </div>
             <br /><br />
             <input type="submit" value="Update Environment">        
-        </div>
-        <div class = "plant_list right">  
-            <h2>Plants</h2>
-            <select multiple name="plant" id="plant" class="multiple_select">      
-                {% for plant in plants %}
-                    <option value="{{ plant.id }}">{{ plant.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock %}

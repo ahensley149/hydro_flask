@@ -1,24 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Update {{water.name}} Water Profile</h1>
-<div class = "form">
-    <form action="/add_water" method="POST" id="enviro-form">
-        <div class = "left">
-        <label>Name:</label>
-        <input type="text" name="name" id="name" value="{{water.name}}">
-        <br /><br />
-        <label>Min pH: </label>
-        <input type="text" name="min_ph" id="min_ph" value="{{water.min_ph}}">
-        <label>Max pH: </label>
-        <input type="text" name="max_ph" id="max_ph" value="{{water.max_ph}}">
-        <br /><br />
-        <label>Min EC: </label>
-        <input type="text" name="min_ec" id="min_ec" value="{{water.min_ec}}">
-        <label>Max EC: </label>
-        <input type="text" name="max_ec" id="max_ec" value="{{water.max_ec}}">
-        <br /><br />
-        <input type="submit" value="Update Water Profile">
-    </form>
-</div>
+    <h1>Update {{water.name}} Water Profile</h1>
+    <div class = "form">
+        <form action="/update_water/{{water.id}}" method="POST" id="enviro-form">
+            <div class = "left">
+            <label>Name:</label>
+            <input type="text" name="name" id="name" value="{{water.name}}">
+            <br /><br />
+            <label>Min pH: </label>
+            <input type="text" name="min_ph" id="min_ph" value="{{water.min_ph}}">
+            <label>Max pH: </label>
+            <input type="text" name="max_ph" id="max_ph" value="{{water.max_ph}}">
+            <br /><br />
+            <label>Min EC: </label>
+            <input type="text" name="min_ec" id="min_ec" value="{{water.min_ec}}">
+            <label>Max EC: </label>
+            <input type="text" name="max_ec" id="max_ec" value="{{water.max_ec}}">
+            <br /><br />
+            <input type="submit" value="Update Water Profile">
+        </form>
+    </div>
 {% endblock %}

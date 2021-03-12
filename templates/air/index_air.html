@@ -3,14 +3,14 @@
     <h1>Manage Air Profiles</h1>
     + <a href="/add_air">Create New Air Profile</a>
     <br />
-    <div class = "container">
+    <div class="container">
         {% for air in airs %}
-            <div class = "air">
+            <div class="air">
                 <h2>{{ air.name }}</h2>
                 <a href="/update_air/{{air.id}}">Update</a>
                 -
                 <a href="/delete_air/{{air.id}}">Delete</a>
-                <table width = "100%">
+                <table width="100%">
                     <tr>
                         <th></th>
                         <th>Min</th>

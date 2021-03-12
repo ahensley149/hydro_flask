@@ -1,22 +1,21 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Update {{ light.name }} Light Profile</h1>
-<div class = "form">
-    <form action="/update_light/{{light.id}}" method="POST" id="enviro-form">
-        <div class = "left">
-        <label>Name:</label>
-        <input type="text" name="name" id="name" value="{{light.name}}">
-        <br /><br />
-        <label>Light Model: </label>
-        <input type="text" name="model" id="model" value="{{light.model}}">
-        <br /><br />
-        <label>Start Time: </label>
-        <input type="time" name="start_time" id="start_time" value="{{light.start_time}}">
-        <label>End Time: </label>
-        <input type="time" name="end_time" id="end_time" value="{{light.end_time}}">
-        <br /><br />
-        <input type="submit" value="Update Light Profile">
-    </form>
-</div>
+    <h1>Update {{ light.name }} Light Profile</h1>
+    <div class = "form">
+        <form action="/update_light/{{light.id}}" method="POST" id="enviro-form">
+            <label>Name:</label>
+            <input type="text" name="name" id="name" value="{{light.name}}">
+            <br /><br />
+            <label>Light Model: </label>
+            <input type="text" name="model" id="model" value="{{light.model}}">
+            <br /><br />
+            <label>Start Time: </label>
+            <input type="time" name="start_time" id="start_time" value="{{light.start_time}}">
+            <label>End Time: </label>
+            <input type="time" name="end_time" id="end_time" value="{{light.end_time}}">
+            <br /><br />
+            <input type="submit" value="Update Light Profile">
+        </form>
+    </div>
 {% endblock %}

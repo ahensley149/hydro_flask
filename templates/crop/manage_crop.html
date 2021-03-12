@@ -23,13 +23,13 @@
         <h1>Harvested on {{crop.harvested_date}}</h1>
     {%endif%}
     <br />
-    <div class = "container crop">
-        <div class = "extra_tasks">
+    <div class="container crop">
+        <div class="extra_tasks">
             <h2>Add Manual Task</h2>
             <br />
 
         </div>
-        <div class = "milestone_links">
+        <div class="milestone_links">
             <h2>Set Milestones</h2>
             <br />
             <form action="/crop/{{crop.id}}" method="POST" id="enviro-form"width ="100%">
@@ -52,7 +52,7 @@
             <br />
 
         </div>
-        <div class = "crop_list">
+        <div class="crop_list">
             <ul>
                 <li>
                     <h2>Plants</h2>
@@ -64,7 +64,7 @@
 
             </ul>
         </div>
-        <div class = "extra_tasks">
+        <div class="extra_tasks">
             <h2>Manual Tasks</h2>
             <br />
             <form action="/add_log/{{crop.id}}" method="POST" id="enviro-form">
@@ -106,5 +106,4 @@
             </ul>
         </div>
     </div>
-
 {% endblock %}

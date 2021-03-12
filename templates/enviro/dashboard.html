@@ -2,129 +2,126 @@
 
 {% block body %}
     <h1>Dashboard - Active Environments</h1>
-    <div class = "environments">
-    {% for enviro in enviros %}
-        <div class = "environment">
-            <div style="width:90%">
-            <h2>{{ enviro.name }}</h2>
-        <a href = "/update_enviro/{{enviro.id}}">Update</a>
-            -
-            <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
-        </div>
-        <div class = "plant_list">
-            <h2 class ="date">Current Crops &nbsp;<a href = "/add_crop/{{enviro.id}}">+</a></h2>
-            {% for current_crop in enviro.crop %}
-            <a href="/crop/{{current_crop.id}}">
-
-                <ul>
-                    <li style="text-align:center;">
-                        {{current_crop.plant_date}}
-                    </li>
-
-                        {% for plant in current_crop.plants %}
-                    
-                            <li>{{ plant.name }}</li>
-                        {% endfor %}
-                </ul>
-            </a>
-            {% endfor %}
-        </div>
-        <div class="recent_photo">
-            <h2 class="date">Last Photo</h2>
-            <img class="recent_photo" src="{{ url_for('static', filename='img/test-recent-photo.jpg') }}">
-            Mar 7th @ 8:00AM
-        </div>
-            <table class = "alerts_panel">
-                <tr>
-                    <th class = "alert_header {{ enviro.alert_status('ph') }}">pH</th>
-                    <th class = "alert_header {{ enviro.alert_status('ec') }}">EC</th>
-                    <th class = "alert_header">Water Temp</th>
-                    <th class = "alert_header">Water Level</th>
-                    <th class = "alert_header">Air Temp</th>
-                    <th class = "alert_header">Humidity</th>
-                </tr>
-                <tr class = "alerts_panel">
-                    <td class = "{{ enviro.alert_status('ph') }} ph">
-                        <h3>{{ enviro.current_ph() }}</h3>
-                        <table width = "100%">
-                            <tr>
-                                <th>Min</th>
-                                <th>Max</th>
-                            </tr>
-                            <tr>
-                                <td>{{ enviro.water.min_ph }}</td>
-                                <td>{{ enviro.water.max_ph }}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td class = "{{ enviro.alert_status('ec') }} ec">
-                        <h3>{{ enviro.current_ec() }}</h3>
-                        <table width = "100%">
-                            <tr>
-                                <th>Min</th>
-                                <th>Max</th>
-                            </tr>
-                            <tr>
-                                <td>{{ enviro.water.min_ec }}</td>
-                                <td>{{ enviro.water.max_ec }}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td class = "water_temp">
-                        <h3>N/A</h3>
-                        <table width = "100%">
-                            <tr>
-                                <th>Min</th>
-                                <th>Max</th>
-                            </tr>
-                            <tr>
-                                <td>65</td>
-                                <td>85</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td class = "water_level">
-                        <h3>N/A</h3>
-                        <table width = "100%">
-                            <tr>
-                                <th>Cap.</th>
-                                <th>Usage</th>
-                            </tr>
-                            <tr>
-                                <td>17 Gal</td>
-                                <td>1 Gal</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td class = "temp">
-                        <h3>N/A</h3>
-                        <table width = "100%">
-                            <tr>
-                                <th>Min</th>
-                                <th>Max</th>
-                            </tr>
-                            <tr>
-                                <td>{{enviro.air.min_temp}}</td>
-                                <td>{{enviro.air.max_temp}}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td class = "humid">
-                        <h3>N/A</h3>
-                        <table width = "100%">
-                            <tr>
-                                <th>Min</th>
-                                <th>Max</th>
-                            </tr>
-                            <tr>
-                                <td>{{enviro.air.min_humid}}</td>
-                                <td>{{enviro.air.max_humid}}</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    {% endfor %}
-</div>
+    <div class="environments">
+        {% for enviro in enviros %}
+            <div class="environment">
+                <div style="width:90%">
+                    <h2>{{ enviro.name }}</h2>
+                    <a href = "/update_enviro/{{enviro.id}}">Update</a>
+                    -
+                    <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
+                </div>
+                <div class = "plant_list">
+                    <h2 class ="date">Current Crops &nbsp;<a href="/add_crop/{{enviro.id}}">+</a></h2>
+                    {% for current_crop in enviro.crop %}
+                        <a href="/crop/{{current_crop.id}}">
+                            <ul>
+                                <li style="text-align:center;">
+                                    {{current_crop.plant_date}}
+                                </li>
+                                {% for plant in current_crop.plants %}
+                                    <li>{{ plant.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="recent_photo">
+                    <h2 class="date">Last Photo</h2>
+                    <img class="recent_photo" src="{{ url_for('static', filename='img/test-recent-photo.jpg') }}">
+                    Mar 7th @ 8:00AM
+                </div>
+                <table class="alerts_panel">
+                    <tr>
+                        <th class="alert_header {{ enviro.alert_status('ph') }}">pH</th>
+                        <th class="alert_header {{ enviro.alert_status('ec') }}">EC</th>
+                        <th class="alert_header">Water Temp</th>
+                        <th class="alert_header">Water Level</th>
+                        <th class="alert_header">Air Temp</th>
+                        <th class="alert_header">Humidity</th>
+                    </tr>
+                    <tr class="alerts_panel">
+                        <td class="{{ enviro.alert_status('ph') }} ph">
+                            <h3>{{ enviro.current_ph() }}</h3>
+                            <table width = "100%">
+                                <tr>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ enviro.water.min_ph }}</td>
+                                    <td>{{ enviro.water.max_ph }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="{{ enviro.alert_status('ec') }} ec">
+                            <h3>{{ enviro.current_ec() }}</h3>
+                            <table width="100%">
+                                <tr>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ enviro.water.min_ec }}</td>
+                                    <td>{{ enviro.water.max_ec }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="water_temp">
+                            <h3>N/A</h3>
+                            <table width="100%">
+                                <tr>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                </tr>
+                                <tr>
+                                    <td>65</td>
+                                    <td>85</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="water_level">
+                            <h3>N/A</h3>
+                            <table width = "100%">
+                                <tr>
+                                    <th>Cap.</th>
+                                    <th>Usage</th>
+                                </tr>
+                                <tr>
+                                    <td>17 Gal</td>
+                                    <td>1 Gal</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="temp">
+                            <h3>N/A</h3>
+                            <table width="100%">
+                                <tr>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                </tr>
+                                <tr>
+                                    <td>{{enviro.air.min_temp}}</td>
+                                    <td>{{enviro.air.max_temp}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="humid">
+                            <h3>N/A</h3>
+                            <table width="100%">
+                                <tr>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                </tr>
+                                <tr>
+                                    <td>{{enviro.air.min_humid}}</td>
+                                    <td>{{enviro.air.max_humid}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -8,42 +8,42 @@
     <title>Hydroponics</title>
 </head>
 <body>
-        <div class = "left-col">
-            <a href="/">
-                <img width="60px" src = "{{ url_for('static', filename='img/hf-icon.png') }}">
-            </a>
-            <br /><br />
-            <a id = "nav_link" {% if enviros %} class = "active" {% endif %} href="/enviro">
-                <img class="nav_link" src = "{{ url_for('static', filename='img/environment1.png') }}">
-            </a>
-            <br /><br />
-            <a id = "nav_link" {% if waters %} class = "active" {% endif %} href="/water">
-                <img class="nav_link"  src = "{{ url_for('static', filename='img/water1.png') }}">
-            </a>
-            <br /><br />
-            <a id = "nav_link" {% if lights %} class = "active" {% endif %} href="/light">
-                <img class="nav_link"  src = "{{ url_for('static', filename='img/light1.png') }}">
-            </a>
-            <br /><br />
-            <a id = "nav_link" {% if airs %} class = "active" {% endif %} href="/air">
-                <img class="nav_link"  src = "{{ url_for('static', filename='img/air1.png') }}">
-            </a>
-            <br /><br />
-            <a id = "nav_link" {% if plants %} class = "active" {% endif %} href="/plant">
-                <img class="nav_link"  src = "{{ url_for('static', filename='img/plant1.png') }}">
-            </a>
-            <br /><br />
-            <a id = "nav_link" href="#">
-                <img class="nav_link"  src = "{{ url_for('static', filename='img/analytics1.png') }}">
-            </a>
-            <a id = "nav_link" href="/pins">
-                <img class="nav_link"  src = "{{ url_for('static', filename='img/settings.png') }}">
-            </a>
-        </div>
-        <div class="content">
-    {% block body %}
+    <div class = "left-col">
+        <a href="/">
+            <img width="60px" src = "{{ url_for('static', filename='img/hf-icon.png') }}">
+        </a>
+        <br /><br />
+        <a id = "nav_link" {% if enviros %} class = "active" {% endif %} href="/enviro">
+            <img class="nav_link" src = "{{ url_for('static', filename='img/environment1.png') }}">
+        </a>
+        <br /><br />
+        <a id = "nav_link" {% if waters %} class = "active" {% endif %} href="/water">
+            <img class="nav_link"  src = "{{ url_for('static', filename='img/water1.png') }}">
+        </a>
+        <br /><br />
+        <a id = "nav_link" {% if lights %} class = "active" {% endif %} href="/light">
+            <img class="nav_link"  src = "{{ url_for('static', filename='img/light1.png') }}">
+        </a>
+        <br /><br />
+        <a id = "nav_link" {% if airs %} class = "active" {% endif %} href="/air">
+            <img class="nav_link"  src = "{{ url_for('static', filename='img/air1.png') }}">
+        </a>
+        <br /><br />
+        <a id = "nav_link" {% if plants %} class = "active" {% endif %} href="/plant">
+            <img class="nav_link"  src = "{{ url_for('static', filename='img/plant1.png') }}">
+        </a>
+        <br /><br />
+        <a id = "nav_link" href="#">
+            <img class="nav_link"  src = "{{ url_for('static', filename='img/analytics1.png') }}">
+        </a>
+        <a id = "nav_link" href="/pins">
+            <img class="nav_link"  src = "{{ url_for('static', filename='img/settings.png') }}">
+        </a>
+    </div>
+    <div class="content">
+        {% block body %}
     
-    {% endblock %}
-</div>
+        {% endblock %}
+    </div>
 </body>
 </html>
