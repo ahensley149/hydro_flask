@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import RPi.GPIO as GPIO
+import sys
 
 GPIO.setmode(GPIO.BOARD)
 
-lights = sys.argv[1]
+lights = int(sys.argv[1])
 GPIO.setup(lights, GPIO.OUT)
 
 def lights_on():

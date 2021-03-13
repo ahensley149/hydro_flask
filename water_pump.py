@@ -3,9 +3,9 @@ import sys
 import RPi.GPIO as GPIO
 import time
 
-water_pump = (sys.argv[1])
-air_pump = 10
-duration = sys.argv[2] * 60
+water_pump = int(sys.argv[1])
+air_pump = 12
+duration = int(sys.argv[2]) * 60
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(air_pump, GPIO.OUT)
