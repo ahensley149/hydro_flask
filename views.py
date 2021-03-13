@@ -38,13 +38,13 @@ def add_environment():
         ec = request.form['ec_sensor']
         water_pump = request.form['water_pump']
         air_pump = request.form['air_pump']
-        ph_solenoid = request.form['ph_solenoid']
+        light_outlet = request.form['light_outlet']
         nutrient_solenoid = request.form['nutrient_solenoid']
         active = request.form['active']
         plants = request.form.getlist('plant')
         
         new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec,
-            water_pump=water_pump, air_pump=air_pump, ph_solenoid=ph_solenoid, nutrient_solenoid=nutrient_solenoid, air_id=air)
+            water_pump=water_pump, air_pump=air_pump, light_outlet=light_outlet, nutrient_solenoid=nutrient_solenoid, air_id=air)
         for plant in plants:
             new_plant = Plant.query.get(plant)
             new_plant.plant_date = str(date.today())
