@@ -183,3 +183,4 @@ class Enviro(db.Model):
                 return
             if current_ec(self.ec_sensor) < self.water.min_ec or current_ec(self.ec_sensor) > self.water.max_ec:
                 return "alert"
+
