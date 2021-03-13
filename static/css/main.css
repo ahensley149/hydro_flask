@@ -293,3 +293,6 @@ select.multiple_select {
 td.alert{
     background: red;
 }
+.cycles{
+    width:100%;
+}

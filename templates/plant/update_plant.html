@@ -1,23 +1,20 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Update Plant Profile</h1>
-<div class = "form">
-    <form action="/update_plant/{{plant.id}}" method="POST">
-        <label>Name:</label>
-        <input type="text" name="name" id="name" value="{{plant.name}}">
-        <br /><br />
-        <label>Ideal EC:</label>
-        <input type="text" name="ec" id="best_ec" value="{{plant.best_ec}}">
-        <label>Ideal Temp:</label>
-        <input type="text" name="temp" id="best_temp" value="{{plant.best_temp}}">
-        <label>Ideal Season:</label>
-        <input type="text" name="season" id="best_season" value="{{plant.best_season}}">
-        <br /><br />
-        <input type="submit" value="Add Plant Profile">
-    </form>
-</div>
-{% endblock %}
-    </form>
-</div>
+    <h1>Update Plant Profile</h1>
+    <div class = "form">
+        <form action="/update_plant/{{plant.id}}" method="POST">
+            <label>Name:</label>
+            <input type="text" name="name" id="name" value="{{plant.name}}">
+            <br /><br />
+            <label>Ideal EC:</label>
+            <input type="text" name="ec" id="best_ec" value="{{plant.best_ec}}">
+            <label>Ideal Temp:</label>
+            <input type="text" name="temp" id="best_temp" value="{{plant.best_temp}}">
+            <label>Ideal Season:</label>
+            <input type="text" name="season" id="best_season" value="{{plant.best_season}}">
+            <br /><br />
+            <input type="submit" value="Add Plant Profile">
+        </form>
+    </div>
 {% endblock %}

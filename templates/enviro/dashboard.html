@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>Dashboard - Active Environments</h1>
+    <h1>Dashboard - Active Environments - <a href="/update_cron" style="font-size:smaller">Sync System Schedule</a></h1>
     <div class="environments">
         {% for enviro in enviros %}
             <div class="environment">
@@ -17,7 +17,7 @@
                         <a href="/crop/{{current_crop.id}}">
                             <ul>
                                 <li style="text-align:center;">
-                                    {{current_crop.plant_date}}
+                                    {{current_crop.name}}
                                 </li>
                                 {% for plant in current_crop.plants %}
                                     <li>{{ plant.name }}</li>

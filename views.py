@@ -173,6 +173,45 @@ def delete_water_profile(id):
         return 'There was an issue deleting the water profile'
     
 
+@app.route('/add_cycle/<int:water_id>')
+def add_cycle(water_id):
+    """If there is a POST request to /add_light, it creates a new light row
+      in the database, otherwise just returns the add_light.html template
+    """
+    new_cycle = Cycle(water_id=water_id)
+
+    try:
+        db.session.add(new_cycle)
+        db.session.commit()
+        return redirect('/water')
+    except:
+        return 'There was an issue adding the cycle'
+
+
+@app.route('/update_cycle/<int:id>', methods=['POST'])
+def update_cycle(id):
+    """If there is a POST request to /add_light, it creates a new light row
+      in the database, otherwise just returns the add_light.html template
+    """
+    cycle = Cycle.query.get_or_404(id)
+    if request.form['duration'] == "0":
+        try:
+            db.session.delete(cycle)
+            db.session.commit()
+            return redirect('/water')
+        except:
+            return 'There was an issue deleting the cycle'
+    else:
+        cycle.start_time = request.form['start_time']
+        cycle.duration = request.form['duration']
+
+        try:
+            db.session.commit()
+            return redirect('/water')
+        except:
+            return 'There was an issue updating the cycle'
+
+
 @app.route('/light')
 def list_light_profiles():
     """Index of all light profiles for updating and deleting"""
@@ -475,9 +514,10 @@ def add_crop(enviro_id):
     """
     if request.method == 'POST':
         plants = request.form.getlist('plants')
+        name = request.form['name']
         date = datetime.today()
         plant_date = date.strftime("%d/%m/%Y")
-        new_crop = Crop(enviro_id=enviro_id,plants=[],plant_date=plant_date)
+        new_crop = Crop(enviro_id=enviro_id,plants=[],plant_date=plant_date, name=name)
 
         for plant in plants:
             new_plant = Plant.query.get(plant)
@@ -577,6 +617,30 @@ def delete_log(id):
         return redirect('/')
     except:
         return 'There was an issue deleting the log'
+
+
+@app.route('/update_cron')
+def update_cron():
+    """Updates the crontab that handles running the scripts at specified times"""
+    enviros = Enviro.query.filter(Enviro.active == 1)
+    cron = CronTab(user=True)
+    cron.remove_all(comment="hydro")
+    cron.remove_all(comment="light")
+    for enviro in enviros:
+        cycles = Cycle.query.filter(Cycle.water_id == enviro.water_id)
+        for cycle in cycles:
+            hour = int(cycle.start_time[0:2])
+            minute = int(cycle.start_time[3:5])
+            job = cron.new(command='python3 /home/ajh149/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
+            job.comment = "hydro"
+            job.day.every(1)
+            job.hour.on(hour)
+            job.minute.on(minute)
+            cron.write()
+        job = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+        job.comment = "light"
+        
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True)

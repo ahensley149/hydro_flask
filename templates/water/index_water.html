@@ -27,17 +27,35 @@
                         <td>{{ water.max_ec }}</td>
                     </tr>
                 </table>
-                <br />
-                <table width="100%">
+                <br /><br />
+                Water Schedule <a href="/add_cycle/{{water.id}}">+</a>
+                <table class="cycles">
                     <tr>
-                        <th>Start Time:</th>
-                        <th>Duration:</th>
+                        <th>Start Time</th>
+                        <th>Duration</th>
+                        <th></th>
                     </tr>
                     {% for cycle in water.cycles %}
-                    <tr>
-                        <td>{{ cycle.start_time }}</td>
-                        <td>{{ cycle.duration }} Minutes</td>
-                    </tr>
+                        <form action="/update_cycle/{{cycle.id}}" method="POST">
+                            <tr>
+                                <td>
+                                    <input type="time" name="start_time" id="start_time" value="{{cycle.start_time}}">
+                                </td>
+                                <td>
+                                    <select name="duration" id="duration">
+                                        <option value="0">Off</option>
+                                        {% for i in range(1,61) %}
+                                            <option {% if i == cycle.duration %} selected {% endif %} value="{{i}}">
+                                                {{i}} Minutes
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="submit" value="Update">
+                                </td>
+                            </tr>
+                        </form>
                     {% endfor %}
                 </table>
             </div>

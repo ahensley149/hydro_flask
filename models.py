@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Flask, render_template,request, redirect
 from sensor_data import current_ph, current_ec
 from flask_sqlalchemy import SQLAlchemy
+from crontab import CronTab
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ class Cycle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     water_id = db.Column(db.Integer, db.ForeignKey('water.id'))
     start_time = db.Column(db.String(10))
-    duration = db.Column(db.Integer, nullable=False)
+    duration = db.Column(db.Integer, default=0)
     recurring = db.Column(db.Integer, nullable=True)
     waters = db.relationship('Water', backref='cycle', lazy=True)
 
@@ -53,6 +54,7 @@ class Crop(db.Model):
       keeping all the crop data stored for future analysis
     """
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(25))
     enviro_id = db.Column(db.Integer, db.ForeignKey('enviro.id'))
     germ_date = db.Column(db.String(30), nullable=True)
     plant_date = db.Column(db.String(30), default='')
@@ -150,7 +152,6 @@ class Enviro(db.Model):
     light_id = db.Column(db.Integer, db.ForeignKey('light.id'), nullable=False)
     air_id = db.Column(db.Integer, db.ForeignKey('air.id'), nullable=False)
     crop = db.relationship('Crop', backref='crop')
-
 
     def current_ph(self):
         """Retrieves the current pH level of the water from the ph sensor attached to
