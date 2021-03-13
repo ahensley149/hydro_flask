@@ -631,13 +631,13 @@ def update_cron():
         for cycle in cycles:
             hour = int(cycle.start_time[0:2])
             minute = int(cycle.start_time[3:5])
-            job = cron.new(command='python3 /home/ajh149/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
+            job = cron.new(command='python3 /home/pi/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
             job.comment = "hydro"
             job.day.every(1)
             job.hour.on(hour)
             job.minute.on(minute)
             cron.write()
-        job = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+        job = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
         job.comment = "light"
         
     return redirect('/')
