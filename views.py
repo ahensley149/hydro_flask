@@ -632,7 +632,7 @@ def update_cron():
         for cycle in cycles:
             hour = int(cycle.start_time[0:2])
             minute = int(cycle.start_time[3:5])
-            job = cron.new(command='python3 /home/ajh149/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
+            job = cron.new(command='python3 /home/pi/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
             job.comment = "hydro"
             job.day.every(1)
             job.hour.on(hour)
@@ -640,12 +640,12 @@ def update_cron():
             cron.write()
         hour = int(light.start_time[0:2])
         minute = int(light.start_time[3:5])
-        job1 = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+        job1 = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
         job1.hour.on(hour)
         job1.minute.on(minute)
         hour = int(light.end_time[0:2])
         minute = int(light.end_time[3:5])
-        job2 = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+        job2 = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
         job2.hour.on(hour)
         job2.minute.on(minute)
         job1.comment = "light"
