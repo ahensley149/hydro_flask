@@ -627,6 +627,7 @@ def update_cron():
     cron.remove_all(comment="hydro")
     cron.remove_all(comment="light")
     for enviro in enviros:
+        light = Light.query.get_or_404(enviro.light_id)
         cycles = Cycle.query.filter(Cycle.water_id == enviro.water_id)
         for cycle in cycles:
             hour = int(cycle.start_time[0:2])
@@ -637,8 +638,18 @@ def update_cron():
             job.hour.on(hour)
             job.minute.on(minute)
             cron.write()
-        job = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
-        job.comment = "light"
+        hour = int(light.start_time[0:2])
+        minute = int(light.start_time[3:5])
+        job1 = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+        job1.hour.on(hour)
+        job1.minute.on(minute)
+        hour = int(light.end_time[0:2])
+        minute = int(light.end_time[3:5])
+        job2 = cron.new(command='python3 /home/ajh149/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+        job2.hour.on(hour)
+        job2.minute.on(minute)
+        job1.comment = "light"
+        job2.comment = "light"
         
     return redirect('/')
 
