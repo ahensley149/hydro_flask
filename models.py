@@ -3,11 +3,11 @@ from flask import Flask, render_template,request, redirect
 from sensor_data import current_ph, current_ec
 from flask_sqlalchemy import SQLAlchemy
 from crontab import CronTab
-
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
 db = SQLAlchemy(app)
+db.init_app(app)
 
 # Many to many association table for crops and plants
 crop_plants = db.Table('crop_plants',

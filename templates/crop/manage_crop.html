@@ -22,7 +22,8 @@
     {% if crop.harvested_date %}
         <h1>Harvested on {{crop.harvested_date}}</h1>
     {%endif%}
-    <br />
+    <a href="/delete_crop/{{crop.id}}">Delete</a>
+    <br /><br />
     <div class="container crop">
         <div class="extra_tasks">
             <h2>Add Manual Task</h2>
@@ -69,8 +70,13 @@
             <br />
             <form action="/add_log/{{crop.id}}" method="POST" id="enviro-form">
                 <input type="date" id="note_date" name="note_date" value="{{today}}">
-
                 <input type="text" id="task" name="task" value="What did you do?">
+                <select name="other_crops" multiple>
+                    <option selected value="0">Just This Crop</option>
+                    {% for other_crop in other_crops %}
+                        <option value="{{other_crop.id}}">{{other_crop.name}}</option>
+                    {% endfor %}
+                </select>
                 <br /><br />
                 <input type="text" id="note" name="note" value="More Details">
                 <br /><br />

@@ -2,7 +2,6 @@ from datetime import datetime, date
 from sensor_data import current_ph, current_ec
 from models import *
 
-
 @app.route('/', methods=['POST', 'GET'])
 def dashboard():
     """Home page view of the app, passes all active environments to dashboard.html
@@ -41,14 +40,9 @@ def add_environment():
         light_outlet = request.form['light_outlet']
         nutrient_solenoid = request.form['nutrient_solenoid']
         active = request.form['active']
-        plants = request.form.getlist('plant')
         
         new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec,
             water_pump=water_pump, air_pump=air_pump, light_outlet=light_outlet, nutrient_solenoid=nutrient_solenoid, air_id=air)
-        for plant in plants:
-            new_plant = Plant.query.get(plant)
-            new_plant.plant_date = str(date.today())
-            new_enviro.plants.append(new_plant)
 
         try:
             db.session.add(new_enviro)
@@ -72,8 +66,13 @@ def update_enviro(id):
         enviro.name = request.form['name']
         enviro.water_id = request.form['water_id']
         enviro.light_id = request.form['light_id']
+        enviro.air_id = request.form['air_id']
         enviro.ph_sensor = request.form['ph_sensor']
         enviro.ec_sensor = request.form['ec_sensor']
+        enviro.water_pump = request.form['water_pump']
+        enviro.air_pump = request.form['air_pump']
+        enviro.light_outlet = request.form['light_outlet']
+        enviro.nutrient_solenoid = request.form['nutrient_solenoid']
         enviro.active = request.form['active']
 
         try:
@@ -561,13 +560,14 @@ def crop(id):
         crop = Crop.query.get_or_404(id)
         today1 = date.today()
         today1 = today1.strftime("%Y-%m-%d")
+        other_crops = Crop.query.filter(Crop.enviro_id==crop.enviro_id)
 
-        return render_template('crop/manage_crop.html', crop=crop,today=today1)
+        return render_template('crop/manage_crop.html', crop=crop,today=today1, other_crops=other_crops)
 
 
 @app.route('/delete_crop/<int:id>')
 def delete_crop(id):
-    """Deletes the crop related to the id sent to /delete_crop/{id}"""
+    """Deletes the crop related to the id sent to /delete_pin/{id}"""
     crop = Crop.query.get_or_404(id)
     try:
         db.session.delete(crop)
@@ -598,9 +598,16 @@ def add_log(crop_id):
             task = request.form['task']
             note_date = request.form['note_date']
             note = request.form['note']
-            new_log = Log(crop_id=crop_id,note_date=note_date, task=task, note=note)
-            try:
+            other_crops = request.form.getlist('other_crops')
+            if int(other_crops[0]) > 0:
+                new_log = Log(crop_id=crop_id,note_date=note_date, task=task, note=note)
                 db.session.add(new_log)
+                for other_crop in other_crops:
+                    id = int(other_crop)
+                    new_log = Log(crop_id=id,note_date=note_date, task=task, note=note)
+                    db.session.add(new_log)
+
+            try:
                 db.session.commit()
                 return redirect('/crop/{}'.format(crop_id))
             except:
@@ -629,29 +636,32 @@ def update_cron():
     for enviro in enviros:
         light = Light.query.get_or_404(enviro.light_id)
         cycles = Cycle.query.filter(Cycle.water_id == enviro.water_id)
-        for cycle in cycles:
-            hour = int(cycle.start_time[0:2])
-            minute = int(cycle.start_time[3:5])
-            job = cron.new(command='python3 /home/pi/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
-            job.comment = "hydro"
-            job.day.every(1)
-            job.hour.on(hour)
-            job.minute.on(minute)
+        if enviro.water_pump > 0:
+            for cycle in cycles:
+                hour = int(cycle.start_time[0:2])
+                minute = int(cycle.start_time[3:5])
+                job = cron.new(command='python3 /home/pi/repos/hydro_flask/water_pump.py {} {}'.format(enviro.water_pump, cycle.duration))
+                job.comment = "hydro"
+                job.day.every(1)
+                job.hour.on(hour)
+                job.minute.on(minute)
+                cron.write()
+        if enviro.light_outlet > 0:
+            hour = int(light.start_time[0:2])
+            minute = int(light.start_time[3:5])
+            job1 = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+            job1.hour.on(hour)
+            job1.minute.on(minute)
+            job1.comment = "light"
+            
+            hour = int(light.end_time[0:2])
+            minute = int(light.end_time[3:5])
+            job2 = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
+            job2.hour.on(hour)
+            job2.minute.on(minute)
+            job2.comment = "light"
             cron.write()
 
-        hour = int(light.start_time[0:2])
-        minute = int(light.start_time[3:5])
-        job1 = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
-        job1.hour.on(hour)
-        job1.minute.on(minute)
-        hour = int(light.end_time[0:2])
-        minute = int(light.end_time[3:5])
-        job2 = cron.new(command='python3 /home/pi/repos/hydro_flask/lights.py {}'.format(enviro.light_outlet))
-        job2.hour.on(hour)
-        job2.minute.on(minute)
-        job1.comment = "light"
-        job2.comment = "light"
-        
     return redirect('/')
 
 if __name__ == "__main__":

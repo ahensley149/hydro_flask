@@ -69,12 +69,15 @@
                     <option value="22" {% if enviro.air_pump == 22 %} selected {% endif %}>Outlet #6</option>
                     <option value="24" {% if enviro.air_pump == 24 %} selected {% endif %}>Outlet #7</option>
                 </select>
-                <select name="ph_solenoid" id="ph_solenoid" form="enviro-form">
-                    <option value="0">pH Solenoid</option>
-                    <option value="8">DC Outlet #1</option>
-                    <option value="10">DC Outlet #2</option>
-                    <option value="12">DC Outlet #3</option>
-                    <option value="16">DC Outlet #4</option>
+                <select name="light_outlet" id="light_outlet" form="enviro-form">
+                    <option value="0" {% if enviro.light_outlet == 0 %} selected {% endif %}>Air Pump</option>
+                    <option value="8" {% if enviro.light_outlet == 8 %} selected {% endif %}>Outlet #1</option>
+                    <option value="10" {% if enviro.light_outlet == 10 %} selected {% endif %}>Outlet #2</option>
+                    <option value="12" {% if enviro.light_outlet == 12 %} selected {% endif %}>Outlet #3</option>
+                    <option value="16" {% if enviro.light_outlet == 16 %} selected {% endif %}>Outlet #4</option>
+                    <option value="18" {% if enviro.light_outlet == 18 %} selected {% endif %}>Outlet #5</option>
+                    <option value="22" {% if enviro.light_outlet == 22 %} selected {% endif %}>Outlet #6</option>
+                    <option value="24" {% if enviro.light_outlet == 24 %} selected {% endif %}>Outlet #7</option>
                 </select>
                 <select name="nutrient_solenoid" id="nutrient_solenoid" form="enviro-form">
                     <option value="0">Nutrient Solenoid</option>
