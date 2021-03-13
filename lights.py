@@ -14,7 +14,7 @@ def lights_on():
   """
   GPIO.output(lights, 1)
 
-def lights_off()
+def lights_off():
   """Turns the lights off
   """
   GPIO.output(lights, 0)
