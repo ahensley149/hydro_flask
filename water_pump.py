@@ -8,12 +8,15 @@ air_pump = 12
 duration = int(sys.argv[2]) * 60
 GPIO.setmode(GPIO.BOARD)
 
-GPIO.setup(air_pump, GPIO.OUT)
-GPIO.setup(water_pump, GPIO.OUT)
+def water_plants(water_pump,air_pump,duration):
+    GPIO.setup(air_pump, GPIO.OUT)
+    GPIO.setup(water_pump, GPIO.OUT)
 
-GPIO.output(air_pump, 1)
-time.sleep(240)
-GPIO.output(water_pump, 1)
-time.sleep(duration)
-GPIO.output(air_pump, 0)
-GPIO.output(water_pump, 0)
+    GPIO.output(air_pump, 1)
+    time.sleep(240)
+    GPIO.output(water_pump, 1)
+    time.sleep(duration)
+    GPIO.output(air_pump, 0)
+    GPIO.output(water_pump, 0)
+
+water_plants(water_pump,air_pump,duration)

@@ -3,7 +3,7 @@
 from models import *
 from datetime import datetime
 import RPi.GPIO as GPIO
-import water_pump_check as water_pump
+from water_pump_check import *
 
 enviros = Enviro.query.filter(Enviro.active == 1)
 now = datetime.now()
@@ -32,7 +32,7 @@ def enviro_check():
             cycle_end = datetime.strptime(cycle.start_time, '%H:%M') + datetime.timedelta(minutes = cycle.duration)
             if current_time > cycle_start and current_time < cycle_end:
                 if GPIO.input(enviro.water_pump) < 1:
-                    water_pump.water_plants(enviro.water_pump,enviro.air_pump,cycle.duration)
+                    water_plants(enviro.water_pump,enviro.air_pump,cycle.duration)
     return 'All Environments Checked'
 
 print(enviro_check())
