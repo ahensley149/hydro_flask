@@ -15,5 +15,3 @@ def water_plants(water_pump,air_pump,duration):
     time.sleep(duration)
     GPIO.output(air_pump, 0)
     GPIO.output(water_pump, 0)
-
-water_plants(water_pump,air_pump,duration)
