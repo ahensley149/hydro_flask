@@ -27,8 +27,8 @@ def enviro_check():
             if GPIO.input(enviro.light_outlet) < 1:
                 lights_on(enviro.light_outlet)
         for cycle in enviro.water.cycles:
-            cycle_start = datetime.strptime(cycle.start_time, '%H:%M')
-            cycle_end = datetime.strptime(cycle.start_time, '%H:%M') + datetime.timedelta(minutes = cycle.duration)
+            cycle_start = cycle.start_time
+            cycle_end = cycle.start_time
             if current_time > cycle_start and current_time < cycle_end:
                 if GPIO.input(enviro.water_pump) < 1:
                     water_plants(enviro.water_pump,enviro.air_pump,cycle.duration)
