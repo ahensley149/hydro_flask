@@ -15,7 +15,6 @@ GPIO.setmode(GPIO.BOARD)
 def lights_on(lights):
   """Turns the lights on
   """
-  GPIO.setup(lights, GPIO.OUT)
   GPIO.output(lights, 1)
 
 
@@ -25,6 +24,7 @@ def enviro_check():
         light_end = enviro.light.end_time
         if current_time > light_start and current_time < light_end:
             if GPIO.input(enviro.light_outlet) < 1:
+                GPIO.setup(lights, GPIO.OUT)
                 lights_on(enviro.light_outlet)
         
         for cycle in enviro.water.cycles:
