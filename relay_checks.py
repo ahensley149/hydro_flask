@@ -26,7 +26,6 @@ def enviro_check():
         if current_time > light_start and current_time < light_end:
             if GPIO.input(enviro.light_outlet) < 1:
                 lights_on(enviro.light_outlet)
-                        GPIO.setup(lights, GPIO.OUT)
         for cycle in enviro.water.cycles:
             cycle_start = datetime.strptime(cycle.start_time, '%H:%M')
             cycle_end = datetime.strptime(cycle.start_time, '%H:%M') + datetime.timedelta(minutes = cycle.duration)
