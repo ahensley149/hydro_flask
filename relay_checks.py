@@ -21,8 +21,8 @@ def lights_on(lights):
 
 def enviro_check():
     for enviro in enviros:
-        light_start = datetime.strptime(enviro.light.start_time, '%H:%M')
-        light_end = datetime.strptime(enviro.light.end_time, '%H:%M')
+        light_start = enviro.light.start_time
+        light_end = enviro.light.end_time
         if current_time > light_start and current_time < light_end:
             if GPIO.input(enviro.light_outlet) < 1:
                 lights_on(enviro.light_outlet)
