@@ -37,7 +37,15 @@ def enviro_check():
                 if minutes >= 60:
                     hours += 1
                     minutes -= 60
-                cycle_end = '{}:{}'.format(str(hours), str(minutes))
+                if minutes < 10:
+                    str_minutes = '0{}'.format(minutes)
+                else:
+                    str_hours = str(hours)
+                if hours < 10:
+                    str_hours = '0{}'.format(hours)
+                else:
+                    str_hours = str(hours)
+                cycle_end = '{}:{}'.format(str_hours, str_minutes)
                 if current_time > cycle_start and current_time < cycle_end:
                     if GPIO.input(enviro.water_pump) < 1:
                         print(hours)
