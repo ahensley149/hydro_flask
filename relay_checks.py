@@ -20,11 +20,11 @@ def lights_on(lights):
 
 def enviro_check():
     for enviro in enviros:
+        GPIO.setup(lights, GPIO.OUT)
         light_start = enviro.light.start_time
         light_end = enviro.light.end_time
         if current_time > light_start and current_time < light_end:
             if GPIO.input(enviro.light_outlet) < 1:
-                GPIO.setup(lights, GPIO.OUT)
                 lights_on(enviro.light_outlet)
         
         for cycle in enviro.water.cycles:
