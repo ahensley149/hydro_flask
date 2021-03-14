@@ -1,10 +1,23 @@
+#!/usr/bin/env python3
+
 from models import *
 from datetime import datetime
-import lights, water_pump
+import RPi.GPIO as GPIO
+import water_pump_check as water_pump
 
 enviros = Enviro.query.filter(Enviro.active == 1)
 now = datetime.now()
 current_time = now.strftime('%H:%M')
+
+
+GPIO.setmode(GPIO.BOARD)
+
+def lights_on(lights):
+  """Turns the lights on
+  """
+  GPIO.setup(lights, GPIO.OUT)
+  GPIO.output(lights, 1)
+
 
 def enviro_check():
     for enviro in enviros:
@@ -12,7 +25,7 @@ def enviro_check():
         light_end = datetime.strptime(enviro.light.end_time, '%H:%M')
         if current_time > light_start and current_time < light_end:
             if GPIO.input(enviro.light_outlet) < 1:
-                lights.lights_on(enviro.light_outlet)
+                lights_on(enviro.light_outlet)
         
         for cycle in enviro.water.cycles:
             cycle_start = datetime.strptime(cycle.start_time, '%H:%M')
