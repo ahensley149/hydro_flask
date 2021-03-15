@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 
+GPIO.setmode(GPIO.BOARD)
+
 GPIO.setup(8, GPIO.OUT)
 GPIO.setup(10, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
