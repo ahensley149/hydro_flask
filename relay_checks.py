@@ -48,10 +48,7 @@ def enviro_check():
                 cycle_end = '{}:{}'.format(str_hours, str_minutes)
                 if current_time > cycle_start and current_time < cycle_end:
                     if GPIO.input(enviro.water_pump) < 1:
-                        print(hours)
-                        print(minutes)
-                        print(cycle_end)
-                        # water_plants(enviro.water_pump,enviro.air_pump,cycle.duration)
+                        water_plants(enviro.water_pump,enviro.air_pump,cycle.duration)
     return 'All Environments Checked'
 
 print(enviro_check())
