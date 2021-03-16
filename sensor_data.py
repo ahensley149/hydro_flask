@@ -1,4 +1,4 @@
-"""import serial
+import serial
 
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 ser.flush()
@@ -10,11 +10,10 @@ i = 0
 while True:
     if ser.in_waiting > 0:
         ph_level = ser.readline().decode('utf-8').rstrip()
-        ec_level = ser.readline().decode('utf-8').rstrip()
-"""
+
 def current_ph(ph_sensor):
     if ph_sensor == 1:
-        return 6.0
+        return ph_level
     elif ph_sensor == 2:
         return 5.4
     else:

@@ -155,7 +155,9 @@ tr.alerts_panel > td{
     display:block;
     text-align: left;
     border-radius:10px;
-    width:30%;
+    width:32%;
+    overflow-y:scroll;
+    height:400px;
 }
 .crop{
     grid-template-columns: 2fr 1fr 1fr;
