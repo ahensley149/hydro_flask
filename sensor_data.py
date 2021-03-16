@@ -1,6 +1,6 @@
 import serial
 
-ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+ser = serial.open('/dev/ttyUSB0', 9600, timeout=1)
 ser.flush()
 
 ph_level = ''
