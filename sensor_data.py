@@ -26,7 +26,8 @@ def get_data():
 
 def get_nano_data():
     data = nano.readline().decode('utf-8').rstrip()
-    print(data)
+    data_list = re.search(r"Humidity: ([0-9.]*) Tempertature: ([0-9.]*)", data)
+    print(data_list)
 
 def current_ph(ph_sensor):
     if ph_sensor == 1:
