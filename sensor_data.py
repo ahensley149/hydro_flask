@@ -34,8 +34,10 @@ def current_ph(ph_sensor):
         return 5.4
     else:
         return 0
+
 def current_ec(ec_sensor):
     if ec_sensor == 1:
+        _, ec_level = get_data()
         if is_number(ec_level):
             return float(ec_level)
         else:
