@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, render_template,request, redirect
-from sensor_data import current_ph, current_ec
+from sensor_data import current_ph, current_ec, get_nano_data
 from flask_sqlalchemy import SQLAlchemy
 from crontab import CronTab
 app = Flask(__name__)
@@ -160,7 +160,7 @@ class Enviro(db.Model):
         if self.ph_sensor == 0:
             return 'N/A'
         ph_level = current_ph(self.ph_sensor)
-        return float(ph_level)
+        return '{:.1f}'.format(float(ph_level))
 
     def current_ec(self):
         """Retrieves the current EC level of the water from the ec sensor attached to
@@ -169,18 +169,18 @@ class Enviro(db.Model):
         if self.ec_sensor == 0:
             return 'N/A'
         ec_level = current_ec(self.ec_sensor)
-        return float(ec_level)
+        return '{:.1f}'.format(float(ec_level))
     
     def alert_status(self, sensor):
         """Returns alert status to set color of alert on dashboard environment panel"""
         if sensor == "ph":
             if self.ph_sensor == 0:
                 return
-            if current_ph(self.ph_sensor) < self.water.min_ph or current_ph(self.ph_sensor) > self.water.max_ph:
+            if float(current_ph(self.ph_sensor)) < self.water.min_ph or float(current_ph(self.ph_sensor)) > self.water.max_ph:
                 return "alert"
         if sensor == "ec":
             if self.ec_sensor == 0:
                 return
-            if current_ec(self.ec_sensor) < self.water.min_ec or current_ec(self.ec_sensor) > self.water.max_ec:
+            if float(current_ec(self.ec_sensor)) < self.water.min_ec or float(current_ec(self.ec_sensor)) > self.water.max_ec:
                 return "alert"
 

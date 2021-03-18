@@ -94,7 +94,11 @@
                             </table>
                         </td>
                         <td class="temp">
-                            <h3>N/A</h3>
+                            {% if enviro.water_pump > 0 %}
+			    	<h3>{{ temp }}&deg;</h3>
+			    {% else %}
+				<h3>N/A</h3>
+			    {% endif %}
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -107,7 +111,12 @@
                             </table>
                         </td>
                         <td class="humid">
-                            <h3>N/A</h3>
+                            {% if enviro.water_pump > 0 %}
+                                <h3>{{ humid }}%
+</h3>
+                            {% else %}
+                                <h3>N/A</h3>
+                            {% endif %}
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>

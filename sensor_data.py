@@ -24,10 +24,15 @@ def get_data():
     else:
         get_data()
 
-def get_nano_data():
+def get_nano_data(sensor):
     data = nano.readline().decode('utf-8').rstrip()
-    data_list = re.search(r"Humidity: ([0-9][0-9].[0-9][0-9]) Tempertature: ([0-9][0-9].[0-9][0-9])", data)
-    print(data_list)
+    data_list = re.split(r"\s", data)
+    if sensor == 'temp':
+        temp = re.split(r"\.", data_list[5])
+        return temp[0]
+    if sensor == 'humid':
+        humid = re.split(r"\.", data_list[1])
+        return humid[0]
 
 def current_ph(ph_sensor):
     if ph_sensor == 1:
