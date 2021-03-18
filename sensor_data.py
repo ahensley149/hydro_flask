@@ -1,4 +1,5 @@
 import serial
+import re
 
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 ser.flush()
@@ -15,9 +16,12 @@ def is_number(string):
         return False
 
 def get_data():
-    ph_level = ser.readline().decode('utf-8').rstrip()
-    ec_level = ser.readline().decode('utf-8').rstrip()
-    return ph_level, ec_level
+    data = ser.readline().decode('utf-8').rstrip()
+    data_list = re.split(r"\s", data)
+    if is_number(data_list[0]) and is_number(data_list[1]):
+        return data_list[0], data_list[1]
+    else:
+        get_data()
 
 def current_ph(ph_sensor):
     if ph_sensor == 1:
