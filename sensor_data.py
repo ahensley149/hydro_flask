@@ -2,6 +2,7 @@ import serial
 import re
 
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+nano = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
 ser.flush()
 
 ph_level = ''
@@ -22,6 +23,10 @@ def get_data():
         return data_list[0], data_list[1]
     else:
         get_data()
+
+def get_nano_data():
+    data = nano.readline().decode('utf-8').rstrip()
+    print(data)
 
 def current_ph(ph_sensor):
     if ph_sensor == 1:
