@@ -183,4 +183,13 @@ class Enviro(db.Model):
                 return
             if float(current_ec(self.ec_sensor)) < self.water.min_ec or float(current_ec(self.ec_sensor)) > self.water.max_ec:
                 return "alert"
+        if sensor == "temp":
+            temp = int(get_data('temp'))
+            if temp < self.air.min_temp or temp > self.air.max_temp:
+                return "alert"
+        if sensor == "humid":
+            humid = int(get_data('humid'))
+            if humid < self.air.min_humid or humid > self.air.max_humid:
+                return "alert"
+            
 

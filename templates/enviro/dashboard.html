@@ -93,12 +93,12 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="temp">
+                        <td class="{{ enviro.alert_status('temp') }} temp">
                             {% if enviro.water_pump > 0 %}
-			    	<h3>{{ temp }}&deg;</h3>
-			    {% else %}
-				<h3>N/A</h3>
-			    {% endif %}
+			    	            <h3>{{ temp }}&deg;</h3>
+			                {% else %}
+				                <h3>N/A</h3>
+			                {% endif %}
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -110,7 +110,7 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="humid">
+                        <td class="{{ enviro.alert_status('humid') }} humid">
                             {% if enviro.water_pump > 0 %}
                                 <h3>{{ humid }}%
 </h3>

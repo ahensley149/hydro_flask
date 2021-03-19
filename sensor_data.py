@@ -1,42 +1,37 @@
 import serial
 import re
 
-ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+uno = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
 nano = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
-ser.flush()
+uno.flush()
+nano.flush()
 
-ph_level = ''
-ec_level = ''
-i = 0
-
-def is_number(string):
+def is_number(value):
     try:
-        float(string)
+        float(value)
         return True
     except ValueError:
         return False
 
-def get_data():
-    data = ser.readline().decode('utf-8').rstrip()
-    data_list = re.split(r"\s", data)
-    if is_number(data_list[0]) and is_number(data_list[1]):
-        return data_list[0], data_list[1]
-    else:
-        get_data()
-
-def get_nano_data(sensor):
-    data = nano.readline().decode('utf-8').rstrip()
-    data_list = re.split(r"\s", data)
+def get_data(sensor):
+    data1 = uno.readline().decode('utf-8').rstrip()
+    data2 = nano.readline().decode('utf-8').rstrip()
+    data1_list = re.split(r"\s", data1)
+    data2_list = re.split(r"\s", data2)
     if sensor == 'temp':
-        temp = re.split(r"\.", data_list[5])
+        temp = re.split(r"\.", data2_list[5])
         return temp[0]
     if sensor == 'humid':
-        humid = re.split(r"\.", data_list[1])
+        humid = re.split(r"\.", data2_list[1])
         return humid[0]
+    if sensor == 'ph':
+        return data1_list[0]
+    if sensor == 'ec':
+        return data1_list[1]
 
 def current_ph(ph_sensor):
     if ph_sensor == 1:
-        ph_level, _ = get_data()
+        ph_level, _ = get_data('ph')
         if is_number(ph_level):
             return float(ph_level)
         else:
@@ -48,7 +43,7 @@ def current_ph(ph_sensor):
 
 def current_ec(ec_sensor):
     if ec_sensor == 1:
-        _, ec_level = get_data()
+        _, ec_level = get_data('ec')
         if is_number(ec_level):
             return float(ec_level)
         else:
