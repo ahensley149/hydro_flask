@@ -1,8 +1,8 @@
 import serial
 import re
 
-uno = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
-nano = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+uno = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+nano = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 uno.flush()
 nano.flush()
 
@@ -31,7 +31,7 @@ def get_data(sensor):
 
 def current_ph(ph_sensor):
     if ph_sensor == 1:
-        ph_level, _ = get_data('ph')
+        ph_level = get_data('ph')
         if is_number(ph_level):
             return float(ph_level)
         else:
@@ -43,7 +43,7 @@ def current_ph(ph_sensor):
 
 def current_ec(ec_sensor):
     if ec_sensor == 1:
-        _, ec_level = get_data('ec')
+        ec_level = get_data('ec')
         if is_number(ec_level):
             return float(ec_level)
         else:
