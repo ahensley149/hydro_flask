@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, render_template,request, redirect
-from sensor_data import current_ph, current_ec, get_nano_data
+from sensor_data import current_ph, current_ec, get_data
 from flask_sqlalchemy import SQLAlchemy
 from crontab import CronTab
 app = Flask(__name__)

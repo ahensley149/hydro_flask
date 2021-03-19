@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from sensor_data import current_ph, current_ec, get_nano_data
+from sensor_data import current_ph, current_ec, get_data
 from models import *
 
 @app.route('/', methods=['POST', 'GET'])
@@ -7,8 +7,8 @@ def dashboard():
     """Home page view of the app, passes all active environments to dashboard.html
       template to display pertinent information
     """
-    temp = get_nano_data('temp')
-    humid = get_nano_data('humid')
+    temp = get_data('temp')
+    humid = get_data('humid')
     environments = Enviro.query.filter(Enviro.active == 1)
     return render_template('enviro/dashboard.html', enviros=environments, temp=temp, humid=humid)
 
