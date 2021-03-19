@@ -2,22 +2,23 @@ from datetime import datetime, date
 from sensor_data import current_ph, current_ec, get_data
 from models import *
 
+
 @app.route('/', methods=['POST', 'GET'])
 def dashboard():
     """Home page view of the app, passes all active environments to dashboard.html
       template to display pertinent information
     """
-    temp = get_data('temp')
-    humid = get_data('humid')
+    sensor_data = get_data('all')
     environments = Enviro.query.filter(Enviro.active == 1)
-    return render_template('enviro/dashboard.html', enviros=environments, temp=temp, humid=humid)
+    return render_template('enviro/dashboard.html', enviros=environments, sensor_data=sensor_data)
 
 
 @app.route('/enviro')
 def list_environments():
     """Index of all environments for updating and deleting"""
+    sensor_data = get_data('all')
     environments = Enviro.query.all()    
-    return render_template('enviro/index_enviro.html', enviros=environments)
+    return render_template('enviro/index_enviro.html', enviros=environments, sensor_data=sensor_data)
 
 
 @app.route('/add_enviro', methods=['POST', 'GET'])

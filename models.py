@@ -3,6 +3,8 @@ from flask import Flask, render_template,request, redirect
 from sensor_data import current_ph, current_ec, get_data
 from flask_sqlalchemy import SQLAlchemy
 from crontab import CronTab
+import serial
+import re
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
@@ -153,6 +155,7 @@ class Enviro(db.Model):
     air_id = db.Column(db.Integer, db.ForeignKey('air.id'), nullable=False)
     air_sensor = db.Column(db.Integer, default=0)
     crop = db.relationship('Crop', backref='crop')
+
 
     def current_ph(self):
         """Retrieves the current pH level of the water from the ph sensor attached to

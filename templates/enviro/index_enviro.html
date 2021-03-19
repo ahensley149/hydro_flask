@@ -8,17 +8,17 @@
             <div class="environment">
                 <div style="width:90%">
                     <h2>{{ enviro.name }}</h2>
-                    <a href="/update_enviro/{{enviro.id}}">Update</a>
+                    <a href = "/update_enviro/{{enviro.id}}">Update</a>
                     -
-                    <a href="/delete_enviro/{{enviro.id}}">Delete</a>
+                    <a href = "/delete_enviro/{{enviro.id}}">Delete</a>
                 </div>
-                <div class="plant_list">
+                <div class = "plant_list">
                     <h2 class ="date">Current Crops &nbsp;<a href="/add_crop/{{enviro.id}}">+</a></h2>
                     {% for current_crop in enviro.crop %}
                         <a href="/crop/{{current_crop.id}}">
                             <ul>
                                 <li style="text-align:center;">
-                                    {{current_crop.plant_date}}
+                                    {{current_crop.name}}
                                 </li>
                                 {% for plant in current_crop.plants %}
                                     <li>{{ plant.name }}</li>
@@ -43,7 +43,11 @@
                     </tr>
                     <tr class="alerts_panel">
                         <td class="{{ enviro.alert_status('ph') }} ph">
-                            <h3>{{ enviro.current_ph() }}</h3>
+                            {% if enviro.ec_sensor > 0 %}
+                                <h3>{{ sensor_data['ph'] }}</h3>
+                            {% else %}
+                                <h3>--</h3>
+                            {% endif %}
                             <table width = "100%">
                                 <tr>
                                     <th>Min</th>
@@ -56,7 +60,11 @@
                             </table>
                         </td>
                         <td class="{{ enviro.alert_status('ec') }} ec">
-                            <h3>{{ enviro.current_ec() }}</h3>
+                            {% if enviro.ec_sensor > 0 %}
+                                <h3>{{ sensor_data['ec'] }}</h3>
+                            {% else %}
+                                <h3>--</h3>
+                            {% endif %}
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -69,7 +77,7 @@
                             </table>
                         </td>
                         <td class="water_temp">
-                            <h3>N/A</h3>
+                            <h3>--</h3>
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -94,8 +102,12 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="temp">
-                            <h3>N/A</h3>
+                        <td class="{{ enviro.alert_status('temp') }} temp">
+                            {% if enviro.air_sensor > 0 %}
+			    	            <h3>{{ sensor_data['air_temp'] }}&deg;</h3>
+			                {% else %}
+				                <h3>--</h3>
+			                {% endif %}
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -107,8 +119,12 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="humid">
-                            <h3>N/A</h3>
+                        <td class="{{ enviro.alert_status('humid') }} humid">
+                            {% if enviro.air_sensor > 0 %}
+                                <h3>{{ sensor_data['humid'] }}%</h3>
+                            {% else %}
+                                <h3>--</h3>
+                            {% endif %}
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
