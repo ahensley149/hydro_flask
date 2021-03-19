@@ -1,8 +1,8 @@
 import serial
 import re
 
-uno = serial.Serial('/dev/ttyUSB0', 9600, timeout=2)
-nano = serial.Serial('/dev/ttyUSB1', 9600, timeout=3)
+uno = serial.Serial('/dev/ttyUSB1', 9600, timeout=2)
+nano = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
 uno.flush()
 nano.flush()
 
@@ -34,14 +34,14 @@ def get_data(sensor):
             value_list = ['a']
             num = False
         if num == True:
-            ph = data_uno_list[0]
-            ec = data_uno_list[1]
+            ph = float(data_uno_list[0])
+            ec = float(data_uno_list[1])
             humid = re.split(r"\.", data_nano_list[1])
             air_temp = re.split(r"\.", data_nano_list[5])
             value_list = [ph, ec, air_temp[0], humid[0]]
 
     if sensor == 'all':
-        all_data = {'ph': ph, 'ec': ec, 'air_temp': air_temp[0], 'humid': humid[0]}
+        all_data = {'ph': '{:.1f}'.format(ph), 'ec': '{:.1f}'.format(ec), 'air_temp': air_temp[0], 'humid': humid[0]}
         return all_data
     if sensor == 'air_temp':
         return air_temp[0]

@@ -137,7 +137,6 @@ li{
 table.alerts_panel {
     margin-top: 20px;
     margin:auto;
-    margin-bottom:10px;
     width:90%;
 }
 
@@ -148,6 +147,7 @@ th.alert_header {
 tr.alerts_panel > td{
     color: #000;
     border-radius: 10px;
+    border-bottom: 35px solid rgb(126, 225, 137); 
 }
 .plant_list {
     margin: 20px 0 0 2%;
@@ -240,9 +240,9 @@ a.active > img {
     width:70px;
 }
 h3{
-    font-size:3em;
-    color: #fff;
-    margin:2px;
+    font-size:2em;
+    color: #000;
+    margin:1px;
 }
 
 h1.title{
@@ -274,27 +274,14 @@ select.multiple_select {
     background:none;
 }
 
-.ph, .ec, .water_temp, .water_level, .temp, .humid {
-    background-color:rgb(126, 225, 137);
-}
-.ec {
-    background-color:rgb(126, 225, 137);
-}
-.water_temp {
-    background-color:rgb(126, 225, 137);
-}
-.water_level {
-    background-color:rgb(126, 225, 137);
-}
-.temp {
-    background-color:rgb(126, 225, 137);
-}
-.humid{
-    background-color:rgb(126, 225, 137);
-}
-td.alert{
-    background: red;
+tr.alerts_panel > td.alert{
+    border-bottom: 35px solid red;
 }
 .cycles{
     width:100%;
+}
+
+td > table {
+    margin-bottom: -38px;
+    font-size: .7em;
 }
