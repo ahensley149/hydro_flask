@@ -151,6 +151,7 @@ class Enviro(db.Model):
     water_id = db.Column(db.Integer, db.ForeignKey('water.id'), nullable=False)
     light_id = db.Column(db.Integer, db.ForeignKey('light.id'), nullable=False)
     air_id = db.Column(db.Integer, db.ForeignKey('air.id'), nullable=False)
+    air_sensor = db.Column(db.Integer, default=0)
     crop = db.relationship('Crop', backref='crop')
 
     def current_ph(self):
