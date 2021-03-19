@@ -13,6 +13,8 @@ def is_number(values):
         return True
     except ValueError:
         return False
+    except TypeError:
+        return False
 
 def get_data(sensor):
     uno = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
