@@ -41,7 +41,7 @@
                         <th class="alert_header">Humidity</th>
                     </tr>
                     <tr class="alerts_panel">
-                        <td class="{{ enviro.alert_status('ph') }} ph">
+                        <td class="{{ enviro.alert_status('ph', sensor_data['ph']) }} ph">
                             {% if enviro.ec_sensor > 0 %}
                                 <h3>{{ sensor_data['ph'] }}</h3>
                             {% else %}
@@ -58,7 +58,7 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="{{ enviro.alert_status('ec') }} ec">
+                        <td class="{{ enviro.alert_status('ec', sensor_data['ec']) }} ec">
                             {% if enviro.ec_sensor > 0 %}
                                 <h3>{{ sensor_data['ec'] }}</h3>
                             {% else %}
@@ -101,7 +101,7 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="{{ enviro.alert_status('temp') }} temp">
+                        <td class="{{ enviro.alert_status('temp', sensor_data['air_temp']) }} temp">
                             {% if enviro.air_sensor > 0 %}
 			    	            <h3>{{ sensor_data['air_temp'] }}&deg;</h3>
 			                {% else %}
@@ -118,7 +118,7 @@
                                 </tr>
                             </table>
                         </td>
-                        <td class="{{ enviro.alert_status('humid') }} humid">
+                        <td class="{{ enviro.alert_status('humid', sensor_data['humid']) }} humid">
                             {% if enviro.air_sensor > 0 %}
                                 <h3>{{ sensor_data['humid'] }}%</h3>
                             {% else %}

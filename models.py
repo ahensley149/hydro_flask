@@ -156,29 +156,28 @@ class Enviro(db.Model):
     air_sensor = db.Column(db.Integer, default=0)
     crop = db.relationship('Crop', backref='crop')
     
-    def alert_status(self, sensor):
+    def alert_status(self, sensor, value):
         """Returns alert status to set color of alert on dashboard environment panel"""
-        sensor_data = get_data('all')
         if sensor == "ph":
             if self.ph_sensor == 0:
                 return
-            if float(sensor_data['ph']) < self.water.min_ph or float(sensor_data['ph']) > self.water.max_ph:
+            if float(value) < self.water.min_ph or float(value) > self.water.max_ph:
                 return "alert"
         if sensor == "ec":
             if self.ec_sensor == 0:
                 return
-            if float(sensor_data['ec']) < self.water.min_ec or float(sensor_data) > self.water.max_ec:
+            if float(value) < self.water.min_ec or float(value) > self.water.max_ec:
                 return "alert"
         if sensor == "temp":
             if self.air_sensor == 0:
                 return
-            temp = int(sensor_data['air_temp'])
+            temp = int(value)
             if temp < self.air.min_temp or temp > self.air.max_temp:
                 return "alert"
         if sensor == "humid":
             if self.air_sensor == 0:
                 return
-            humid = int(sensor_data['humid'])
+            humid = int(value)
             if humid < self.air.min_humid or humid > self.air.max_humid:
                 return "alert"
             
