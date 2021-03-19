@@ -285,3 +285,13 @@ td > table {
     margin-bottom: -38px;
     font-size: .7em;
 }
+
+.gauge-container.two > .gauge > .dial {
+    stroke: #334455;
+    stroke-width: 3;
+}
+.gauge-container.two > .gauge > .value {
+    /*stroke: orange;*/
+    stroke-dasharray: none;
+    stroke-width: 4;
+}
