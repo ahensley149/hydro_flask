@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from sensor_data import current_ph, current_ec, get_data
+from sensor_data import get_data
 from models import *
 
 

@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, render_template,request, redirect
-from sensor_data import current_ph, current_ec, get_data
+from sensor_data import get_data
 from flask_sqlalchemy import SQLAlchemy
 from crontab import CronTab
 import serial
@@ -155,44 +155,30 @@ class Enviro(db.Model):
     air_id = db.Column(db.Integer, db.ForeignKey('air.id'), nullable=False)
     air_sensor = db.Column(db.Integer, default=0)
     crop = db.relationship('Crop', backref='crop')
-
-
-    def current_ph(self):
-        """Retrieves the current pH level of the water from the ph sensor attached to
-        the current Enviro()
-        """
-        if self.ph_sensor == 0:
-            return 'N/A'
-        ph_level = current_ph(self.ph_sensor)
-        return '{:.1f}'.format(float(ph_level))
-
-    def current_ec(self):
-        """Retrieves the current EC level of the water from the ec sensor attached to
-        the current Enviro()
-        """
-        if self.ec_sensor == 0:
-            return 'N/A'
-        ec_level = current_ec(self.ec_sensor)
-        return '{:.1f}'.format(float(ec_level))
     
     def alert_status(self, sensor):
         """Returns alert status to set color of alert on dashboard environment panel"""
+        sensor_data = get_data('all')
         if sensor == "ph":
             if self.ph_sensor == 0:
                 return
-            if float(current_ph(self.ph_sensor)) < self.water.min_ph or float(current_ph(self.ph_sensor)) > self.water.max_ph:
+            if float(sensor_data['ph']) < self.water.min_ph or float(sensor_data['ph']) > self.water.max_ph:
                 return "alert"
         if sensor == "ec":
             if self.ec_sensor == 0:
                 return
-            if float(current_ec(self.ec_sensor)) < self.water.min_ec or float(current_ec(self.ec_sensor)) > self.water.max_ec:
+            if float(sensor_data['ec']) < self.water.min_ec or float(sensor_data) > self.water.max_ec:
                 return "alert"
         if sensor == "temp":
-            temp = int(get_data('temp'))
+            if self.air_sensor == 0:
+                return
+            temp = int(sensor_data['air_temp'])
             if temp < self.air.min_temp or temp > self.air.max_temp:
                 return "alert"
         if sensor == "humid":
-            humid = int(get_data('humid'))
+            if self.air_sensor == 0:
+                return
+            humid = int(sensor_data['humid'])
             if humid < self.air.min_humid or humid > self.air.max_humid:
                 return "alert"
             
