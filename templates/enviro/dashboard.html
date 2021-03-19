@@ -76,7 +76,7 @@
                             </table>
                         </td>
                         <td class="water_temp">
-                            <h3>--</h3>
+                            <div id="gauge2" class="gauge-container two"></div>
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -140,4 +140,32 @@
             </div>
         {% endfor %}
     </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/gauge.js') }}"> </script>
+    <script>
+        var pad = function(tar) {}
+
+        var gauge2 = Gauge(
+        document.getElementById("gauge2"),
+		    {
+          min: -100,
+          max: 100,
+          dialStartAngle: 180,
+          dialEndAngle: 0,
+          value: 50,
+          viewBox: "0 0 100 57",
+          color: function(value) {
+            if(value < 20) {
+              return "#5ee432";
+            }else if(value < 40) {
+              return "#fffa50";
+            }else if(value < 60) {
+              return "#f7aa38";
+            }else {
+              return "#ef4655";
+            }
+          }
+        }
+      );
+      gauge2.setValue(value, 50);
+    </script>
 {% endblock %}
