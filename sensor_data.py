@@ -9,7 +9,7 @@ nano.flush()
 def is_number(values):
     try:
         for value in values:
-            float(value)
+           float(value)
         return True
     except ValueError:
         return False
@@ -18,8 +18,8 @@ def is_number(values):
 
 def get_data(sensor):
     value_list = ['a']
-
-    while not is_number(value_list):
+    num = is_number(value_list)
+    while num == False:
         data_uno = uno.readline().decode('utf-8').rstrip()
         data_nano = nano.readline().decode('utf-8').rstrip()
         data_uno_list = re.split(r"\s", data_uno)
@@ -29,12 +29,19 @@ def get_data(sensor):
             ph = data_uno_list[0]
             humid = re.split(r"\.", data_nano_list[1])
             ec = data_uno_list[1]
-            value_list = [ph, ec, air_temp, humid]
+            num = True
         except IndexError:
             value_list = ['a']
+            num = False
+        if num == True:
+            ph = data_uno_list[0]
+            ec = data_uno_list[1]
+            humid = re.split(r"\.", data_nano_list[1])
+            air_temp = re.split(r"\.", data_nano_list[5])
+            value_list = [ph, ec, air_temp[0], humid[0]]
 
     if sensor == 'all':
-        all_data = {'ph': ph, 'ec': ec, 'air_temp': air_temp, 'humid': humid}
+        all_data = {'ph': ph, 'ec': ec, 'air_temp': air_temp[0], 'humid': humid[0]}
         return all_data
     if sensor == 'air_temp':
         return air_temp[0]
