@@ -43,7 +43,7 @@
                     <tr class="alerts_panel">
                         <td class="{{ enviro.alert_status('ph', sensor_data['ph']) }} ph">
                             {% if enviro.ec_sensor > 0 %}
-                                <h3>{{ sensor_data['ph'] }}</h3>
+                            <div id="gauge_ph" class="gauge-container two"></div>
                             {% else %}
                                 <h3>--</h3>
                             {% endif %}
@@ -76,7 +76,7 @@
                             </table>
                         </td>
                         <td class="water_temp">
-                            <div id="gauge2" class="gauge-container two"></div>
+                            <h3>--</h3>
                             <table width="100%">
                                 <tr>
                                     <th>Min</th>
@@ -144,14 +144,14 @@
     <script>
         var pad = function(tar) {}
 
-        var gauge2 = Gauge(
-        document.getElementById("gauge2"),
+        var gauge_ph = Gauge(
+        document.getElementById("gauge"),
 		    {
-          min: -100,
-          max: 100,
+          min: 0.0,
+          max: 14.0,
           dialStartAngle: 180,
           dialEndAngle: 0,
-          value: 50,
+          value: {{ sensor_data['ph'] }},
           viewBox: "0 0 100 57",
           color: function(value) {
             if(value < 20) {
@@ -166,6 +166,5 @@
           }
         }
       );
-      gauge2.setValue(value, 50);
     </script>
 {% endblock %}

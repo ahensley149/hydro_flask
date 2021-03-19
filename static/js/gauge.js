@@ -87,7 +87,7 @@
       gaugeClass: "gauge",
       showValue: true,
       gaugeColor: null,
-      label: function(val) {return Math.round(val);}
+      label: function(val) {return val;}
     };
 
     function shallowCopy(/* source, ...targets*/) {
@@ -232,10 +232,10 @@
       function initializeGauge(elem) {
         gaugeValueElem = svg("text", {
           x: 50,
-          y: 50,
-          fill: "#999",
+          y: 35,
+          fill: "#000",
           "class": valueTextClass,
-          "font-size": "100%",
+          "font-size": "150%",
           "font-family": "sans-serif",
           "font-weight": "normal",
           "text-anchor": "middle",
