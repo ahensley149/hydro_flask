@@ -45,6 +45,11 @@
                     <option value="1" {% if enviro.ec_sensor == 1 %} selected {% endif %}>Sensor #1</option>
                     <option value="2" {% if enviro.ec_sensor == 2 %} selected {% endif %}>Sensor #2</option>
                 </select>
+                <select name="air_sensor" id="air_sensor" form="enviro-form" default="{{enviro.air_sensor}}">
+                    <option value="0">Air Sensor</option>
+                    <option value="1" {% if enviro.ec_sensor == 1 %} selected {% endif %}>Sensor #1</option>
+                    <option value="2" {% if enviro.ec_sensor == 2 %} selected {% endif %}>Sensor #2</option>
+                </select>
             </div>
             <br />
             <div>
