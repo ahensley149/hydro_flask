@@ -3,8 +3,6 @@ from flask import Flask, render_template,request, redirect
 from sensor_data import get_data
 from flask_sqlalchemy import SQLAlchemy
 from crontab import CronTab
-import serial
-import re
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hydro.db'
