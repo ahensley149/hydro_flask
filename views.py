@@ -38,13 +38,14 @@ def add_environment():
         air = request.form['air_id']
         ph = request.form['ph_sensor']
         ec = request.form['ec_sensor']
+        air_sensor = request.form['air_sensor']
         water_pump = request.form['water_pump']
         air_pump = request.form['air_pump']
         light_outlet = request.form['light_outlet']
         nutrient_solenoid = request.form['nutrient_solenoid']
         active = request.form['active']
         
-        new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec,
+        new_enviro = Enviro(name=name, water_id=water, light_id=light, active=active, ph_sensor=ph, ec_sensor=ec, air_sensor=air_sensor,
             water_pump=water_pump, air_pump=air_pump, light_outlet=light_outlet, nutrient_solenoid=nutrient_solenoid, air_id=air)
 
         try:
@@ -64,6 +65,7 @@ def update_enviro(id):
       in the database, otherwise just returns the update_enviroment.html template
     """
     enviro = Enviro.query.get_or_404(id)
+    enviro.air_sensor = 0
 
     if request.method == 'POST':
         enviro.name = request.form['name']
@@ -72,6 +74,7 @@ def update_enviro(id):
         enviro.air_id = request.form['air_id']
         enviro.ph_sensor = request.form['ph_sensor']
         enviro.ec_sensor = request.form['ec_sensor']
+        enviro.air_sensor = request.form['air_sensor']
         enviro.water_pump = request.form['water_pump']
         enviro.air_pump = request.form['air_pump']
         enviro.light_outlet = request.form['light_outlet']
