@@ -27,7 +27,7 @@ h1{
 .left-col {
     float:left;
     clear:none;
-    position:absolute;
+    position:fixed;
     background: rgb(255,255,255);
     background: rgb(255,255,255);
     padding:20px;
@@ -147,7 +147,6 @@ th.alert_header {
 tr.alerts_panel > td{
     color: #000;
     border-radius: 10px;
-    border-bottom: 35px solid rgb(126, 225, 137); 
 }
 .plant_list {
     margin: 20px 0 0 2%;
@@ -275,20 +274,18 @@ select.multiple_select {
 }
 
 tr.alerts_panel > td.alert{
-    border-bottom: 35px solid red;
 }
 .cycles{
     width:100%;
 }
 
 td > table {
-    margin-bottom: -38px;
     font-size: .7em;
 }
 
 .gauge-container.two > .gauge > .dial {
     stroke: #334455;
-    stroke-width: 3;
+    stroke-width: 6;
 }
 .gauge-container.two > .gauge > .value {
     /*stroke: orange;*/

@@ -1,11 +1,10 @@
-import serial
 import re
-
+"""import serial
 uno = serial.Serial('/dev/ttyUSB1', 9600, timeout=2)
 nano = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
 uno.flush()
 nano.flush()
-
+"""
 def is_number(values):
     try:
         for value in values:
@@ -17,7 +16,7 @@ def is_number(values):
         return False
 
 def get_data(sensor):
-    value_list = ['a']
+    """value_list = ['a']
     num = is_number(value_list)
     while num == False:
         data_uno = uno.readline().decode('utf-8').rstrip()
@@ -39,9 +38,9 @@ def get_data(sensor):
             humid = re.split(r"\.", data_nano_list[1])
             air_temp = re.split(r"\.", data_nano_list[5])
             value_list = [ph, ec, air_temp[0], humid[0]]
-
+    """
     if sensor == 'all':
-        all_data = {'ph': '{:.1f}'.format(ph), 'ec': '{:.1f}'.format(ec), 'air_temp': air_temp[0], 'humid': humid[0]}
+        all_data = {'ph': '6.2', 'ec': '1.5', 'air_temp': '70', 'humid': '36'}
         return all_data
     if sensor == 'air_temp':
         return air_temp[0]

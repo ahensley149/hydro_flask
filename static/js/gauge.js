@@ -87,7 +87,8 @@
       gaugeClass: "gauge",
       showValue: true,
       gaugeColor: null,
-      label: function(val) {return val;}
+      extraChar: "",
+      label: function(val) {return val+this.extraChar;}
     };
 
     function shallowCopy(/* source, ...targets*/) {
@@ -207,6 +208,7 @@
           gaugeValueElem,
           gaugeValuePath,
           label = opts.label,
+          extraChar = opts.extraChar,
           viewBox = opts.viewBox,
           instance;
 

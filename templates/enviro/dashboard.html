@@ -43,7 +43,7 @@
                     <tr class="alerts_panel">
                         <td class="{{ enviro.alert_status('ph', sensor_data['ph']) }} ph">
                             {% if enviro.ec_sensor > 0 %}
-                            <div id="gauge_ph" class="gauge-container two"></div>
+                                <div id="gauge_ph" class="gauge-container two"></div>
                             {% else %}
                                 <h3>--</h3>
                             {% endif %}
@@ -60,7 +60,7 @@
                         </td>
                         <td class="{{ enviro.alert_status('ec', sensor_data['ec']) }} ec">
                             {% if enviro.ec_sensor > 0 %}
-                                <h3>{{ sensor_data['ec'] }}</h3>
+                                <div id="gauge_ec" class="gauge-container two"></div>
                             {% else %}
                                 <h3>--</h3>
                             {% endif %}
@@ -103,7 +103,7 @@
                         </td>
                         <td class="{{ enviro.alert_status('temp', sensor_data['air_temp']) }} temp">
                             {% if enviro.air_sensor > 0 %}
-			    	            <h3>{{ sensor_data['air_temp'] }}&deg;</h3>
+                            <div id="gauge_air_temp" class="gauge-container two"></div>
 			                {% else %}
 				                <h3>--</h3>
 			                {% endif %}
@@ -120,7 +120,7 @@
                         </td>
                         <td class="{{ enviro.alert_status('humid', sensor_data['humid']) }} humid">
                             {% if enviro.air_sensor > 0 %}
-                                <h3>{{ sensor_data['humid'] }}%</h3>
+                            <div id="gauge_humid" class="gauge-container two"></div>
                             {% else %}
                                 <h3>--</h3>
                             {% endif %}
@@ -162,6 +162,76 @@
               return "#f7aa38";
             }else {
               return "#ef4655";
+            }
+          }
+        }
+      );
+      var gauge_ec = Gauge(
+        document.getElementById("gauge_ec"),
+		    {
+          min: 0.0,
+          max: 5.0,
+          dialStartAngle: 180,
+          dialEndAngle: 0,
+          value: {{ sensor_data['ec'] }},
+          viewBox: "0 0 100 57",
+          color: function(value) {
+            if(value < 1.2) {
+              return "red";
+            }else if(value < 1.6) {
+              return "#5ee432";
+            }else if(value < 5) {
+              return "red";
+            }else {
+              return "orange";
+            }
+          }
+        }
+      );
+      var gauge_air_temp = Gauge(
+        document.getElementById("gauge_air_temp"),
+		    {
+          min: 0.0,
+          max: 100.0,
+          dialStartAngle: 180,
+          dialEndAngle: 0,
+          value: {{ sensor_data['air_temp'] }},
+          extraChar: "°",
+          viewBox: "0 0 100 57",
+          color: function(value) {
+            if(value < 65) {
+              return "red";
+            }else if(value < 69) {
+              return "#5ee432";
+            }else if(value < 80) {
+              return "yellow";
+            }else {
+              return "red";
+            }
+          }
+        }
+      );
+      var gauge_humid = Gauge(
+        document.getElementById("gauge_humid"),
+		    {
+          min: 0.0,
+          max: 100.0,
+          dialStartAngle: 180,
+          dialEndAngle: 0,
+          value: {{ sensor_data['humid'] }},
+          extraChar: "%",
+          viewBox: "0 0 100 57",
+          color: function(value) {
+            if(value < 40) {
+              return "red";
+            }else if(value < 50) {
+              return "yellow";
+            }else if(value < 61) {
+              return "#5ee432";
+            }else if(value < 80) {
+              return "yellow";
+            }else {
+              return "red";
             }
           }
         }
