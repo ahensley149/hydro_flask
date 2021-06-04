@@ -6,19 +6,19 @@ from models import *
 @app.route('/', methods=['POST', 'GET'])
 def dashboard():
     """Home page view of the app, passes all active environments to dashboard.html
-      template to display pertinent information
+      template to display current crops, sensor data and latest pictures
     """
     sensor_data = get_data('all')
-    environments = Enviro.query.filter(Enviro.active == 1)
-    return render_template('enviro/dashboard.html', enviros=environments, sensor_data=sensor_data)
+    enviros = Enviro.query.filter(Enviro.active == 1)
+    return render_template('enviro/dashboard.html', enviros=enviros, sensor_data=sensor_data)
 
 
 @app.route('/enviro')
 def list_environments():
     """Index of all environments for updating and deleting"""
     sensor_data = get_data('all')
-    environments = Enviro.query.all()    
-    return render_template('enviro/index_enviro.html', enviros=environments, sensor_data=sensor_data)
+    enviros = Enviro.query.all()    
+    return render_template('enviro/index_enviro.html', enviros=enviros, sensor_data=sensor_data)
 
 
 @app.route('/add_enviro', methods=['POST', 'GET'])
@@ -26,11 +26,6 @@ def add_environment():
     """If there is a POST request to /add_enviro, it creates a new enviro row
       in the database, otherwise just returns the add_enviroment.html template
     """
-    plants = Plant.query.all()
-    waters = Water.query.all()
-    lights = Light.query.all()
-    airs = Air.query.all()
-
     if request.method == 'POST':
         name = request.form['name']
         water = request.form['water_id']
@@ -56,6 +51,9 @@ def add_environment():
             return 'There was an issue adding your environment'
 
     else:
+        waters = Water.query.all()
+        lights = Light.query.all()
+        airs = Air.query.all()
         return render_template('enviro/add_environment.html', plants=plants, waters=waters, lights=lights, airs=airs)
 
 

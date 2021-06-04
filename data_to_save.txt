@@ -1,0 +1,7 @@
+germination date
+extra steps - eg fertilizer, watering
+	task - Added miracle Gro fertilizer
+	date - default current_date
+	details - Amount of fertilizer/water, amount, etc
+
+
